@@ -1,8 +1,12 @@
 package com.example.capstonedesign
 
 import Data.IdCheckData
+import Data.SignUpData
 import Response.IdCheckResponse
+import Response.SignUpResponse
 import Service.IdCheckService
+import Service.SignUpService
+import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -34,6 +38,7 @@ class SignUpActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        var c = applicationContext
         //EditText 선언 모음
         var edtId = findViewById<EditText>(R.id.edtId)
         var edtPw = findViewById<EditText>(R.id.edtPw)
@@ -56,8 +61,16 @@ class SignUpActivity : AppCompatActivity() {
         var btnIdCheck = findViewById<ImageButton>(R.id.btnIdCheck)
         var isIdChecked = false
         btnIdCheck.setOnClickListener {
-            if(!edtId.text.equals("")){
-                val idCheckService = RetrofitClient.retrofitInstance.create(IdCheckService::class.java)
+            if(!edtId.text.toString().equals("")){
+                if(edtId.text.toString().equals("taewoo9240")){
+                    print("입력하신 아이디가 이미 사용중입니다.")
+                }
+                else{
+                    print("입력하신 아이디가 사용가능합니다.")
+                    isIdChecked = true
+                    id = edtId.text.toString()
+                }
+                /*val idCheckService = RetrofitClient.retrofitInstance.create(IdCheckService::class.java)
                 idCheckService.idCheck(IdCheckData(edtId.text.toString())).enqueue(object : retrofit2.Callback<IdCheckResponse>{
                     override fun onResponse(
                         call: Call<IdCheckResponse>,
@@ -77,7 +90,10 @@ class SignUpActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<IdCheckResponse>, t: Throwable) {
                         Toast.makeText(applicationContext, t.message?.toString(), Toast.LENGTH_SHORT).show()
                     }
-                })
+                })*/
+            }
+            else{
+                print("아이디를 입력해주세요")
             }
         }
 
@@ -193,15 +209,63 @@ class SignUpActivity : AppCompatActivity() {
                 else{
                     //그 외
                     if(edtNickname.text.toString().equals("")){
-                        print("닉네임을 입력해주세요")
+                        print("닉네임을 입력해주세요.")
                     }
                     else if(edtEmail.text.toString().equals("")){
-                        print("이메일을 입력해주세요")
+                        print("이메일을 입력해주세요.")
+                    }
+                    else if(edtHeight.text.toString().equals("")){
+                        print("키를 입력해주세요.")
+                    }
+                    else if(edtWeight.text.toString().equals("")){
+                        print("체중을 입력해주세요.")
+                    }
+                    else if(gender.equals("")){
+                        print("성별을 선택해주세요.")
+                    }
+                    else if(level == -1){
+                        print("활동 정도를 선택해주세요.")
+                    }
+                    else if(dietPlan == -1){
+                        print("다이어트 목표를 선택해주세요.")
+                    }
+                    else{
+                        print("회원가입 요청!")
+                        id = edtId.text.toString()
+                        pw = edtPw.text.toString()
+                        nickname = edtNickname.text.toString()
+                        email = edtEmail.toString()
+                        var year : Int = yearPicker.value
+                        val signUpData = SignUpData(id,pw,nickname,email,height,weight,gender,year,level,dietPlan)
+                        val signUpService = RetrofitClient.retrofitInstance.create(SignUpService::class.java)
+                        var intent = Intent(this, LoginActivity::class.java)
+                        signUpService.signUp(signUpData).enqueue(object : retrofit2.Callback<SignUpResponse>{
+                            override fun onResponse(
+                                call: Call<SignUpResponse>,
+                                response: Response<SignUpResponse>
+                            ) {
+                                var result = response.body()?.isSuccuess
+                                if(result == true){
+                                    print("회원가입에 성공하셨습니다. 로그인을 해주세요.")
+                                    startActivity(intent)
+                                    finish()
+                                }
+                                else{
+                                    print("회원가입에 실패하셨습니다.")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<SignUpResponse>,
+                                t: Throwable
+                            ) {
+                                TODO("Not yet implemented")
+                            }
+                        })
                     }
                 }
 
             }
         }
-        var year : Int = yearPicker.value
     }
 }

@@ -95,7 +95,7 @@
                     android:gravity="center"
                     android:hint="비밀번호를 입력해주세요."
                     android:textSize="15dp"
-                    android:inputType="textVisiblePassword"/>
+                    android:inputType="textPassword"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                     android:gravity="center"
                     android:hint="비밀번호를 한 번 더 입력해주세요."
                     android:textSize="15dp"
-                    android:inputType="textVisiblePassword"/>
+                    android:inputType="textPassword"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

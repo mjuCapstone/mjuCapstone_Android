@@ -9,7 +9,7 @@
     android:weightSum="10"
     android:orientation="vertical"
     android:background="@android:color/transparent"
-    tools:context=".MainActivity2">
+    tools:context=".LoginActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -57,6 +57,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp">
         <EditText
+            android:id="@+id/edtId_login"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/round_border"
@@ -66,6 +67,7 @@
             android:paddingLeft="20dp"
             android:hint="아이디를 입력해주세요."/>
         <EditText
+            android:id="@+id/edtPw_login"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/round_border"
@@ -73,8 +75,10 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:paddingLeft="20dp"
-            android:hint="비밀번호를 입력해주세요."/>
+            android:hint="비밀번호를 입력해주세요."
+            android:inputType="textPassword"/>
         <ImageButton
+            android:id="@+id/btnLogin"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@android:color/transparent"

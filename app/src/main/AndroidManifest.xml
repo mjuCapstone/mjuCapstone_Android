@@ -15,16 +15,11 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity2"
+            android:name=".StartActivity"
             android:exported="true"
             android:label="CapstoneDesign"
             android:theme="@style/Theme.App.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +27,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.CapstoneDesign" />
+            android:exported="false"/>
+        <activity
+            android:name=".MenuSelectActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.doinglab.foodlens.sdk.apptoken"
