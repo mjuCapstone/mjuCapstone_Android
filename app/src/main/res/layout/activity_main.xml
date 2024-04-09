@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="9"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    tools:context=".MainActivity2">
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:src="@drawable/img_logo"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+        <View
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="균형잡힌 식단으로 만드는\n건강한 하루,"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:lineHeight="25sp"
+        android:textStyle="bold"
+        android:paddingLeft="20dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:textAlignment="textStart"
+        android:paddingLeft="20dp"
+        android:text="비만과 영양 결핍이 동시에 발생하는 ‘배부른 영양실조’\n 먹어도 먹어도 배고프고 힘이 없다면,\n 찍먹에서 오늘 하루 식단을 기록하고\n 나의 식단을 점검해보세요!"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.3"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+        <ImageButton
+            android:id="@+id/btnMainLogin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/img_login"
+            android:scaleType="centerInside"
+            android:layout_marginRight="10dp"/>
+        <ImageButton
+            android:id="@+id/btnMainSignUp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/img_signup"
+            android:scaleType="centerInside"
+            android:layout_marginLeft="10dp"/>
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnMainFind"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:text="아이디 / 비밀번호 찾기"/>
+
+</LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/fast_decrease"
+        android:title="느린 체중 감소"/>
+    <item android:id="@+id/slow_decrease"
+        android:title="느린 체중 감소"/>
+    <item android:id="@+id/maintain"
+        android:title="체중 유지"/>
+    <item android:id="@+id/slow_increase"
+        android:title="느린 체중 증가"/>
+    <item android:id="@+id/fast_increase"
+        android:title="빠른 체중 증가"/>
+</menu>
