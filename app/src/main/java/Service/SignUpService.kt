@@ -7,6 +7,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface SignUpService {
-    @POST("/signup")
+    @POST("/")
     fun signUp(@Body signUpData : SignUpData): Call<SignUpResponse>
 }

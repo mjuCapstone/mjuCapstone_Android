@@ -44,7 +44,6 @@ class SignUpActivity : AppCompatActivity() {
         var edtPw = findViewById<EditText>(R.id.edtPw)
         var edtPwCheck = findViewById<EditText>(R.id.edtPwCheck)
         var edtNickname = findViewById<EditText>(R.id.edtNickname)
-        var edtEmail = findViewById<EditText>(R.id.edtEmail)
         var edtHeight = findViewById<EditText>(R.id.edtHeight)
         var edtWeight = findViewById<EditText>(R.id.edtWeight)
 
@@ -211,9 +210,6 @@ class SignUpActivity : AppCompatActivity() {
                     if(edtNickname.text.toString().equals("")){
                         print("닉네임을 입력해주세요.")
                     }
-                    else if(edtEmail.text.toString().equals("")){
-                        print("이메일을 입력해주세요.")
-                    }
                     else if(edtHeight.text.toString().equals("")){
                         print("키를 입력해주세요.")
                     }
@@ -234,9 +230,8 @@ class SignUpActivity : AppCompatActivity() {
                         id = edtId.text.toString()
                         pw = edtPw.text.toString()
                         nickname = edtNickname.text.toString()
-                        email = edtEmail.toString()
                         var year : Int = yearPicker.value
-                        val signUpData = SignUpData(id,pw,nickname,email,height,weight,gender,year,level,dietPlan)
+                        val signUpData = SignUpData(id,pw,nickname,height,weight,gender,year,level,dietPlan)
                         val signUpService = RetrofitClient.retrofitInstance.create(SignUpService::class.java)
                         var intent = Intent(this, LoginActivity::class.java)
                         signUpService.signUp(signUpData).enqueue(object : retrofit2.Callback<SignUpResponse>{

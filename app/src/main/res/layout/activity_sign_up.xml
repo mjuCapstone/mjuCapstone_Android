@@ -59,7 +59,7 @@
                     android:layout_height="50dp"
                     android:background="@drawable/right_border"
                     android:gravity="center"
-                    android:hint="아이디를 입력해주세요."
+                    android:hint="아이디로 사용할\n 이메일를 입력해주세요."
                     android:textSize="15dp" />
                 <ImageButton
                     android:id="@+id/btnIdCheck"
@@ -145,37 +145,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="30dp"
-                    android:gravity="center_vertical"
-                    android:text="이메일"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="20dp"/>
-
-                <EditText
-                    android:id="@+id/edtEmail"
-                    android:layout_width="286dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/right_border"
-                    android:gravity="center"
-                    android:hint="이메일을 입력해주세요."
-                    android:textSize="15dp"
-                    android:inputType="textEmailAddress"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
                 android:orientation="horizontal">
                 <TextView
