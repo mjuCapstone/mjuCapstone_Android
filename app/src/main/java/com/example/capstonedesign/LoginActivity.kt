@@ -3,9 +3,12 @@ package com.example.capstonedesign
 import Data.LoginData
 import Response.LoginResponse
 import Service.LoginService
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -22,6 +25,12 @@ class LoginActivity : AppCompatActivity() {
     fun print(message : String){
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
+    private fun getCurrentToken() : String?{
+        var preferences = getPreferences(MODE_PRIVATE)
+        return preferences.getString("accessToken", null)
+    }
+    // null 이 아닐 때 let 구분이 실행되도록 설정 요청 후 응답받는 값이 null이 아닐때 설정.
+    // 최초 로그인시 저장됩니다.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        var preferences = getPreferences(Context.MODE_PRIVATE)
         val btnSignup : Button = findViewById(R.id.btnGoToSignUp)
         btnSignup.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         btnSignup.setOnClickListener{
@@ -59,20 +69,31 @@ class LoginActivity : AppCompatActivity() {
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>
                     ) {
-                        if(response.body()?.isSuccess == true){
-                            print("로그인에 성공하셨습니다")
-                            startActivity(intent)
-                            TODO("메인화면 진입 후 뒤로가기 버튼을 눌렀을 때 " +
-                                    "어플리케이션을 종료할지 물어볼 것인지 아니면 로그인 화면으로 돌아갈 것인지" +
-                                    "정하기")
-                            finish() 
-                        }
-                        else{
-                            print("로그인에 실패하셨습니다")
+                        /*TODO("메인화면 진입 후 뒤로가기 버튼을 눌렀을 때 " +
+                                "어플리케이션을 종료할지 물어볼 것인지 아니면 로그인 화면으로 돌아갈 것인지" +
+                                "정하기")*/
+                        //토큰 처리 메소드
+                        when(response.code()){
+                            200 -> {
+                                response.body()?.let{
+                                    var accessToken = getCurrentToken()
+                                    if(accessToken != it.accessToken){
+                                        preferences.edit().putString("accessToken", accessToken)
+                                    }
+                                    print(it.accessToken)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                            }
+                            else ->{
+                                print("로그인에 실패하셨습니다.")
+                                print(response.code().toString() + ":" + response.message())
+                            }
                         }
                     }
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        Log.d("errorMsg", t.message.toString())
                         print(t.message.toString())
                     }
                 })

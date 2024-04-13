@@ -1,6 +1,6 @@
 package Data
 
 data class LoginData(
-    var id : String,
-    var pw : String
+    var email : String,
+    var password : String
 )

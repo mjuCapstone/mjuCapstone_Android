@@ -6,7 +6,7 @@ data class SignUpData (
     var height : Int,
     var weight : Int,
     var gender : String,
-    var year : Int,
+    var birth : Int,
     var level : Int, // 1 ~ 3
     var dietPlan : Int // 1 ~ 5
 )
