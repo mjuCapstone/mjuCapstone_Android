@@ -2,4 +2,6 @@
     <string name="app_name">찍먹</string>
     <string name="foodlens_app_token" translatable="false">5d5fa5d3a0234cfc99cd860488290bbd</string>
     <string name="foodlens_company_token" translatable="false">1013586f0ffe42e4bdcfd3e8027e6df5</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

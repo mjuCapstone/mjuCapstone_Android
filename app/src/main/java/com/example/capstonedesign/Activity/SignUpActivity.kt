@@ -1,12 +1,9 @@
-package com.example.capstonedesign
+package com.example.capstonedesign.Activity
 
-import Data.IdCheckData
 import Data.SignUpData
-import Response.IdCheckResponse
-import Response.SignUpResponse
-import Service.IdCheckService
+import Response.SignUpFailureResponse
+import Response.SignUpSuccessResponse
 import Service.SignUpService
-import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -16,17 +13,21 @@ import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.PopupMenu
 import android.widget.RadioGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.capstonedesign.R
+import com.example.capstonedesign.RetrofitClient
+import com.google.gson.Gson
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
+import java.io.IOException
 
 class SignUpActivity : AppCompatActivity() {
-    fun print(message : String){
+    fun printToast(message : String){
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,14 +62,17 @@ class SignUpActivity : AppCompatActivity() {
         var isIdChecked = false
         btnIdCheck.setOnClickListener {
             if(!edtId.text.toString().equals("")){
-                if(edtId.text.toString().equals("taewoo9240")){
+                printToast("입력하신 아이디가 사용가능합니다.");
+                isIdChecked = true
+                id = edtId.text.toString()
+                /*if(edtId.text.toString().equals("taewoo9240")){
                     print("입력하신 아이디가 이미 사용중입니다.")
                 }
                 else{
                     print("입력하신 아이디가 사용가능합니다.")
                     isIdChecked = true
                     id = edtId.text.toString()
-                }
+                }*/
                 /*val idCheckService = RetrofitClient.retrofitInstance.create(IdCheckService::class.java)
                 idCheckService.idCheck(IdCheckData(edtId.text.toString())).enqueue(object : retrofit2.Callback<IdCheckResponse>{
                     override fun onResponse(
@@ -92,7 +96,7 @@ class SignUpActivity : AppCompatActivity() {
                 })*/
             }
             else{
-                print("아이디를 입력해주세요")
+                printToast("아이디를 입력해주세요")
             }
         }
 
@@ -101,8 +105,8 @@ class SignUpActivity : AppCompatActivity() {
         var rgGender = findViewById<RadioGroup>(R.id.rgGender)
         rgGender.setOnCheckedChangeListener{ group, checkedId ->
             when(checkedId){
-                R.id.rbMale -> gender = "남자"
-                R.id.rbFemale -> gender = "여자"
+                R.id.rbMale -> gender = "MALE"
+                R.id.rbFemale -> gender = "FEMALE"
             }
         }
 
@@ -189,44 +193,44 @@ class SignUpActivity : AppCompatActivity() {
         btnSignUp.setOnClickListener {
             //아이디 체크
             if(edtId.text.toString().equals("")){
-                print("아이디를 입력해주세요")
+                printToast("아이디를 입력해주세요")
             }
             else if((!isIdChecked) || (!edtId.text.toString().equals(id))){
-                print("아이디 중복체크를 해주세요")
+                printToast("아이디 중복체크를 해주세요")
             }
             else{
                 //비밀번호 체크
                 if(edtPw.text.toString().equals("")){
-                    print("비밀번호를 입력해주세요")
+                    printToast("비밀번호를 입력해주세요")
                 }
                 else if(edtPwCheck.text.toString().equals("")){
-                    print("비밀번호를 한 번 더 입력해주세요")
+                    printToast("비밀번호를 한 번 더 입력해주세요")
                 }
                 else if(!edtPw.text.toString().equals(edtPwCheck.text.toString())){
-                    print("비밀번호가 일치하지 않습니다.")
+                    printToast("비밀번호가 일치하지 않습니다.")
                 }
                 else{
                     //그 외
                     if(edtNickname.text.toString().equals("")){
-                        print("닉네임을 입력해주세요.")
+                        printToast("닉네임을 입력해주세요.")
                     }
                     else if(edtHeight.text.toString().equals("")){
-                        print("키를 입력해주세요.")
+                        printToast("키를 입력해주세요.")
                     }
                     else if(edtWeight.text.toString().equals("")){
-                        print("체중을 입력해주세요.")
+                        printToast("체중을 입력해주세요.")
                     }
                     else if(gender.equals("")){
-                        print("성별을 선택해주세요.")
+                        printToast("성별을 선택해주세요.")
                     }
                     else if(level == -1){
-                        print("활동 정도를 선택해주세요.")
+                        printToast("활동 정도를 선택해주세요.")
                     }
                     else if(dietPlan == -1){
-                        print("다이어트 목표를 선택해주세요.")
+                        printToast("다이어트 목표를 선택해주세요.")
                     }
                     else{
-                        print("회원가입 요청!")
+                        printToast("회원가입 요청!")
                         id = edtId.text.toString()
                         pw = edtPw.text.toString()
                         nickname = edtNickname.text.toString()
@@ -234,24 +238,36 @@ class SignUpActivity : AppCompatActivity() {
                         val signUpData = SignUpData(id,pw,nickname,height,weight,gender,year,level,dietPlan)
                         val signUpService = RetrofitClient.retrofitInstance.create(SignUpService::class.java)
                         var intent = Intent(this, LoginActivity::class.java)
-                        signUpService.signUp(signUpData).enqueue(object : retrofit2.Callback<SignUpResponse>{
+                        signUpService.signUp(signUpData).enqueue(object : retrofit2.Callback<ResponseBody>{
                             override fun onResponse(
-                                call: Call<SignUpResponse>,
-                                response: Response<SignUpResponse>
+                                call: Call<ResponseBody>,
+                                response: Response<ResponseBody>
                             ) {
-                                var result = response.body()?.isSuccuess
-                                if(result == true){
-                                    print("회원가입에 성공하셨습니다. 로그인을 해주세요.")
-                                    startActivity(intent)
-                                    finish()
+                                var gson = Gson()
+                                if(response.isSuccessful){
+                                    try{
+                                        var bodyString = response.body()?.string()
+                                        var signUpSuccessResponse = gson.fromJson(bodyString, SignUpSuccessResponse::class.java)
+                                        printToast("회원 가입에 성공하셨습니다. 로그인을 해주세요.")
+                                        startActivity(intent)
+                                    }catch(e : IOException){
+                                        e.printStackTrace()
+                                    }
                                 }
                                 else{
-                                    print("회원가입에 실패하셨습니다.")
+                                    try{
+                                        printToast(response.code().toString())
+                                        var errorString = response.body()?.string()
+                                        var signUpFailureResponse = gson.fromJson(errorString, SignUpFailureResponse::class.java)
+                                        printToast(signUpFailureResponse.message)
+                                    }catch(e : IOException){
+                                        e.printStackTrace()
+                                    }
                                 }
                             }
 
                             override fun onFailure(
-                                call: Call<SignUpResponse>,
+                                call: Call<ResponseBody>,
                                 t: Throwable
                             ) {
                                 TODO("Not yet implemented")

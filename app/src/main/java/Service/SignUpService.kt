@@ -1,12 +1,12 @@
 package Service
 
 import Data.SignUpData
-import Response.SignUpResponse
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface SignUpService {
-    @POST("/")
-    fun signUp(@Body signUpData : SignUpData): Call<SignUpResponse>
+    @POST("/api/v1/auth/signup")
+    fun signUp(@Body signUpData : SignUpData): Call<ResponseBody>
 }

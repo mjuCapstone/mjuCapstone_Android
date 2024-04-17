@@ -1,11 +1,10 @@
-package com.example.capstonedesign
+package com.example.capstonedesign.Activity
 
 import Data.LoginData
 import Response.LoginResponse
 import Service.LoginService
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
@@ -17,17 +16,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.capstonedesign.R
+import com.example.capstonedesign.RetrofitClient
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.create
 
 class LoginActivity : AppCompatActivity() {
     fun print(message : String){
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
     private fun getCurrentToken() : String?{
-        var preferences = getPreferences(MODE_PRIVATE)
-        return preferences.getString("accessToken", null)
+        var preferences = getSharedPreferences("APP",MODE_PRIVATE)
+        return preferences.getString("token", null)
     }
     // null 이 아닐 때 let 구분이 실행되도록 설정 요청 후 응답받는 값이 null이 아닐때 설정.
     // 최초 로그인시 저장됩니다.
@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        var preferences = getPreferences(Context.MODE_PRIVATE)
+        var preferences = getSharedPreferences("APP",Context.MODE_PRIVATE)
         val btnSignup : Button = findViewById(R.id.btnGoToSignUp)
         btnSignup.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         btnSignup.setOnClickListener{
@@ -77,10 +77,10 @@ class LoginActivity : AppCompatActivity() {
                             200 -> {
                                 response.body()?.let{
                                     var accessToken = getCurrentToken()
-                                    if(accessToken != it.accessToken){
-                                        preferences.edit().putString("accessToken", accessToken)
+                                    if(accessToken != it.data.accessToken){
+                                        preferences.edit().putString("token", it.data.accessToken)
                                     }
-                                    print(it.accessToken)
+                                    print(it.data.accessToken)
                                     startActivity(intent)
                                     finish()
                                 }

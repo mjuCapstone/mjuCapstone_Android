@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -35,6 +36,11 @@ android {
     }
     buildFeatures {
         compose true
+        viewBinding true
+    }
+
+    viewBinding{
+        enabled = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.1'
@@ -75,5 +81,8 @@ dependencies {
     implementation "com.doinglab.foodlens:FoodLens2:1.0.3"
     //splash screen
     implementation "androidx.core:core-splashscreen:1.0.1"
-
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
+    //recycler view
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }

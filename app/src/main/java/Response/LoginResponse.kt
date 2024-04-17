@@ -1,8 +1,9 @@
 package Response
 
+import Data.TokenData
+
 data class LoginResponse(
-    var grantType : String,
-    var accessToken : String,
-    var accessTokenExpiresIn : Long,
-    var refreshToken : String
+    var status : String,
+    var message : String,
+    var data : TokenData
 )

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.capstonedesign.Fragment.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/inputFragment"
+        android:name="com.example.capstonedesign.Fragment.InputFragment"
+        android:label="fragment_input"
+        tools:layout="@layout/fragment_input" >
+        <action
+            android:id="@+id/action_inputFragment_to_resultFragment"
+            app:destination="@id/resultFragment" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.example.capstonedesign.Fragment.ResultFragment"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result">
+        <argument
+            android:name="photoUri"
+            app:argType="android.net.Uri" />
+        <action
+            android:id="@+id/action_resultFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/prefFragment"
+        android:name="com.example.capstonedesign.Fragment.PrefFragment"
+        android:label="fragment_pref"
+        tools:layout="@layout/fragment_pref" />
+    <fragment
+        android:id="@+id/recoFragment"
+        android:name="com.example.capstonedesign.Fragment.RecoFragment"
+        android:label="fragment_reco"
+        tools:layout="@layout/fragment_reco" />
+</navigation>
