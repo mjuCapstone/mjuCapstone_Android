@@ -1,12 +1,12 @@
 package com.example.capstonedesign.Activity
 
 import Data.SignUpData
-import Response.SignUpFailureResponse
-import Response.SignUpSuccessResponse
+import Response.SignUpResponse
 import Service.SignUpService
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -62,9 +62,14 @@ class SignUpActivity : AppCompatActivity() {
         var isIdChecked = false
         btnIdCheck.setOnClickListener {
             if(!edtId.text.toString().equals("")){
-                printToast("입력하신 아이디가 사용가능합니다.");
-                isIdChecked = true
-                id = edtId.text.toString()
+                if(edtId.text.toString().equals("kiatae0722")){
+                    printToast("입력하신 아이디가 이미 사용중입니다")
+                }
+                else {
+                    printToast("입력하신 아이디가 사용가능합니다.");
+                    isIdChecked = true
+                    id = edtId.text.toString()
+                }
                 /*if(edtId.text.toString().equals("taewoo9240")){
                     print("입력하신 아이디가 이미 사용중입니다.")
                 }
@@ -235,39 +240,42 @@ class SignUpActivity : AppCompatActivity() {
                         pw = edtPw.text.toString()
                         nickname = edtNickname.text.toString()
                         var year : Int = yearPicker.value
+                        var height : Int = Integer.valueOf(edtHeight.text.toString())
+                        var weight : Int = Integer.valueOf(edtWeight.text.toString())
                         val signUpData = SignUpData(id,pw,nickname,height,weight,gender,year,level,dietPlan)
                         val signUpService = RetrofitClient.retrofitInstance.create(SignUpService::class.java)
                         var intent = Intent(this, LoginActivity::class.java)
-                        signUpService.signUp(signUpData).enqueue(object : retrofit2.Callback<ResponseBody>{
+                        signUpService.signUp(signUpData).enqueue(object : retrofit2.Callback<SignUpResponse>{
                             override fun onResponse(
-                                call: Call<ResponseBody>,
-                                response: Response<ResponseBody>
+                                call: Call<SignUpResponse>,
+                                response: Response<SignUpResponse>
                             ) {
-                                var gson = Gson()
+                                Log.d("test", signUpData.toString())
                                 if(response.isSuccessful){
-                                    try{
-                                        var bodyString = response.body()?.string()
-                                        var signUpSuccessResponse = gson.fromJson(bodyString, SignUpSuccessResponse::class.java)
-                                        printToast("회원 가입에 성공하셨습니다. 로그인을 해주세요.")
+                                    var responseBody = response.body()
+                                    if(responseBody != null){
+                                        Log.d("test","회원가입 성공")
+                                        printToast("회원가입에 성공하셨습니다.\n 로그인을 해주세요.")
                                         startActivity(intent)
-                                    }catch(e : IOException){
-                                        e.printStackTrace()
                                     }
                                 }
                                 else{
-                                    try{
-                                        printToast(response.code().toString())
-                                        var errorString = response.body()?.string()
-                                        var signUpFailureResponse = gson.fromJson(errorString, SignUpFailureResponse::class.java)
-                                        printToast(signUpFailureResponse.message)
-                                    }catch(e : IOException){
-                                        e.printStackTrace()
+                                    Log.d("test", response.code().toString())
+                                    // HTTP 상태 코드가 200이 아닌 경우 (예: 500)
+                                    val errorBody = response.errorBody()?.string()
+                                    val gson = Gson()
+                                    try {
+                                        val errorResponse = gson.fromJson(errorBody, SignUpResponse::class.java)
+                                        Log.d("test", errorResponse.message)
+                                        printToast(errorResponse.message)
+                                    } catch (e: Exception) {
+                                        Log.e("LoginError", "응답 처리 중 오류 발생", e)
                                     }
                                 }
                             }
 
                             override fun onFailure(
-                                call: Call<ResponseBody>,
+                                call: Call<SignUpResponse>,
                                 t: Throwable
                             ) {
                                 TODO("Not yet implemented")

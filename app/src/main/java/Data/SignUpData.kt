@@ -1,7 +1,7 @@
 package Data
 data class SignUpData (
     var email : String,
-    var pw : String,
+    var password : String,
     var nickname : String,
     var height : Int,
     var weight : Int,

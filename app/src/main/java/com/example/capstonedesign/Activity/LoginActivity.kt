@@ -69,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>
                     ) {
+                        Log.d("test", loginData.toString())
                         /*TODO("메인화면 진입 후 뒤로가기 버튼을 눌렀을 때 " +
                                 "어플리케이션을 종료할지 물어볼 것인지 아니면 로그인 화면으로 돌아갈 것인지" +
                                 "정하기")*/
@@ -77,10 +78,11 @@ class LoginActivity : AppCompatActivity() {
                             200 -> {
                                 response.body()?.let{
                                     var accessToken = getCurrentToken()
-                                    if(accessToken != it.data.accessToken){
-                                        preferences.edit().putString("token", it.data.accessToken)
+                                    var successData = it.data
+                                    if(accessToken != successData.accessToken){
+                                        preferences.edit().putString("token", successData.accessToken)
                                     }
-                                    print(it.data.accessToken)
+                                    print(successData.accessToken)
                                     startActivity(intent)
                                     finish()
                                 }

@@ -1,6 +1,6 @@
-package Response
+package Data
 
-data class SignUpSuccessResponse(
+data class SignUpResultData(
     var id : Int,
     var email : String,
     var role : String
