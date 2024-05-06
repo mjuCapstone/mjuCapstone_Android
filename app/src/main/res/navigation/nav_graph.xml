@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_resultFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_resultFragment_to_inputFragment"
+            app:destination="@id/inputFragment" />
     </fragment>
 
     <fragment
@@ -43,4 +46,9 @@
         android:name="com.example.capstonedesign.Fragment.RecoFragment"
         android:label="fragment_reco"
         tools:layout="@layout/fragment_reco" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.capstonedesign.Fragment.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>

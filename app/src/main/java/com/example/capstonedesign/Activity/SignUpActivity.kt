@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -196,9 +197,13 @@ class SignUpActivity : AppCompatActivity() {
         //최종적으로 확인을 눌렀을때 ?
         var btnSignUp : ImageButton = findViewById(R.id.btnSignUp)
         btnSignUp.setOnClickListener {
+            var pattern = Patterns.EMAIL_ADDRESS
             //아이디 체크
             if(edtId.text.toString().equals("")){
                 printToast("아이디를 입력해주세요")
+            }
+            else if(!pattern.matcher(edtId.text.toString()).matches()){
+                printToast("입력하신 아이디가 이메일 형식에 맞지 않습니다.")
             }
             else if((!isIdChecked) || (!edtId.text.toString().equals(id))){
                 printToast("아이디 중복체크를 해주세요")

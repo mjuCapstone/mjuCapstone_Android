@@ -80,16 +80,20 @@ class LoginActivity : AppCompatActivity() {
                                     var accessToken = getCurrentToken()
                                     var successData = it.data
                                     if(accessToken != successData.accessToken){
-                                        preferences.edit().putString("token", successData.accessToken)
+                                        Log.d("test", "토큰 다름")
+                                        var editor = preferences.edit()
+                                        editor.putString("token", successData.accessToken)
+                                        editor.apply()
                                     }
-                                    print(successData.accessToken)
+                                    else{
+                                        Log.d("test", "토큰 같음")
+                                    }
                                     startActivity(intent)
                                     finish()
                                 }
                             }
                             else ->{
                                 print("로그인에 실패하셨습니다.")
-                                print(response.code().toString() + ":" + response.message())
                             }
                         }
                     }

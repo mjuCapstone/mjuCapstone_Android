@@ -12,54 +12,48 @@
         android:orientation="vertical"
         android:weightSum="15"
         tools:context=".Fragment.InputFragment">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:orientation="horizontal"
-            android:background="@drawable/search_bar_background">
-            <ImageButton
-                android:id="@+id/btnSearch"
-                android:layout_marginLeft="10dp"
-                android:background="@android:color/transparent"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:scaleType="centerInside"
-                android:layout_gravity="center"
-                android:src="@drawable/img_search"/>
-            <EditText
-                android:id="@+id/edtSearch"
-                android:background="@android:color/transparent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:hint="검색어를 입력하세요."
-                android:textColorHint="#B6B6B6"
-                android:textColor="#000000"
-                android:textSize="15dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <TextView
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnSelectBrand"
+                android:background="@drawable/custom_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:text="최근 검색어"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:textColor="#E18610"/>
+                android:text="브랜드"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:background="@drawable/search_bar_background">
+                <ImageButton
+                    android:id="@+id/btnSearch"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center"
+                    android:src="@drawable/img_search"/>
+                <EditText
+                    android:id="@+id/edtSearch"
+                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:hint="검색어를 입력하세요."
+                    android:textColorHint="#B6B6B6"
+                    android:textColor="#000000"
+                    android:textSize="15dp"/>
+            </LinearLayout>
         </LinearLayout>
         <View
             android:layout_marginTop="5dp"
@@ -67,13 +61,28 @@
             android:layout_width="match_parent"
             android:layout_height="2px"
             android:layout_margin="10dp"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/menuRecyclerView"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="13"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:layout_weight="13">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none">
+                <ListView
+                    android:id="@+id/menuListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"/>
+            </ScrollView>
+            <TextView
+                android:id="@+id/tvBrandEnter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="브랜드를 입력해주세요"
+                android:gravity="center"/>
+        </FrameLayout>
 
     </LinearLayout>
 

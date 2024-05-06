@@ -28,7 +28,7 @@
         android:layout_marginRight="30dp"
         android:background="@drawable/rounded_frame"
         android:scaleType="fitCenter"
-        android:src="@drawable/img_pork_cutlet"/>
+        android:src="@drawable/ic_launcher_foreground"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -37,25 +37,30 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tvMenuResultName"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
-            android:text="카레 돈가스"
+            android:text="로딩 중..."
             android:textSize="20dp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:gravity="center_vertical"/>
-        <NumberPicker
-            android:id="@+id/npNumPerson"
-            android:layout_marginLeft="200dp"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            />
         <TextView
+            android:id="@+id/tvGram"
+            android:layout_marginLeft="10dp"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="0 g"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:gravity="center_vertical | right"/>
+        <TextView
+            android:id="@+id/tvPerson"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:text="인분"
+            android:text="1 인분"
             android:textSize="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -68,6 +73,27 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvResultGuideMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="표시된 정보가 다르거나 잘못되었나요?"/>
+        <Button
+            android:id="@+id/btnAdjust"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="수정하기"
+            android:textColor="#E26060"
+            android:textStyle="bold"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -88,7 +114,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="40dp"
             android:gravity="right"
-            android:text="1200 kcal"
+            android:text="0 kcal"
             android:textSize="15dp"
             android:textColor="#E18610"
             android:textStyle="bold"/>
@@ -113,7 +139,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="40dp"
             android:gravity="right"
-            android:text="140g"
+            android:text="0g"
             android:textSize="15dp"
             android:textColor="#000000"
             android:textStyle="normal"/>
@@ -138,7 +164,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="40dp"
             android:gravity="right"
-            android:text="140g"
+            android:text="0g"
             android:textSize="15dp"
             android:textColor="#000000"
             android:textStyle="normal"/>
@@ -163,36 +189,12 @@
             android:layout_height="match_parent"
             android:layout_marginRight="40dp"
             android:gravity="right"
-            android:text="140g"
+            android:text="0g"
             android:textSize="15dp"
             android:textColor="#000000"
             android:textStyle="normal"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="0.5">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:gravity="center_vertical"
-            android:text="나트륨"
-            android:textSize="15dp"
-            android:textColor="#000000"
-            android:textStyle="normal"/>
-        <TextView
-            android:id="@+id/tvNatrium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="40dp"
-            android:gravity="right"
-            android:text="3000mg"
-            android:textSize="15dp"
-            android:textColor="#000000"
-            android:textStyle="normal"/>
-    </LinearLayout>
+
 
 
     <LinearLayout

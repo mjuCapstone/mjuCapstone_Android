@@ -4,6 +4,7 @@ import Data.MenuItem
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -11,10 +12,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
+import android.widget.ListView
+import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +52,8 @@ class InputFragment : Fragment() {
     private lateinit var binding : FragmentInputBinding
     private lateinit var adapter :MenuRecyclerAdapter //adapter객체 먼저 선언해주기!
     private lateinit var imagePickerLauncher : ActivityResultLauncher<Intent>
+    private lateinit var brandMenuMap : HashMap<Int,java.util.ArrayList<String>>
+    private lateinit var menuList : java.util.ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,14 +69,43 @@ class InputFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initList()
-        initMenuRecyclerView()
+        brandMenuMap = HashMap()
+        var lotteia = arrayListOf("불고기버거","치즈버거","새우버거")
+        var macdonald = arrayListOf("빅맥","불고기버거","핫크리스피버거","1955버거")
+        var burgerking = arrayListOf("통새우와퍼","몬스터와퍼","불고기버거","통모짜와퍼")
+        var momstouch = arrayListOf("싸이버거","불싸이버거","불고기버거","아라비아따치즈버거")
+        brandMenuMap.put(R.id.lotteria,lotteia)
+        brandMenuMap.put(R.id.macdonald,macdonald)
+        brandMenuMap.put(R.id.burgerking,burgerking)
+        brandMenuMap.put(R.id.momstouch, momstouch)
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
             if(result.resultCode == Activity.RESULT_OK){
                 var uri : Uri = result.data?.data!!
                 var action = InputFragmentDirections.actionInputFragmentToResultFragment(uri)
                 findNavController().navigate(action)
             }
+        }
+        binding.btnSelectBrand.setOnClickListener {
+            var popupMenu = PopupMenu(requireContext(), it)
+            var applicationContext : AppCompatActivity = context as AppCompatActivity
+            applicationContext.menuInflater.inflate(R.menu.menu_brand, popupMenu.menu)
+            popupMenu.show()
+            popupMenu.setOnMenuItemClickListener {
+                if(brandMenuMap.containsKey(it.itemId)){
+                    menuList = brandMenuMap.get(it.itemId)!!
+                    binding.tvBrandEnter.visibility = TextView.GONE
+                    binding.menuListView.visibility = ListView.VISIBLE
+                    binding.btnSelectBrand.text = it.title
+                    var arrayAdapter : ArrayAdapter<String> = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, menuList)
+                    binding.menuListView.adapter = arrayAdapter
+                    binding.menuListView.deferNotifyDataSetChanged()
+                    return@setOnMenuItemClickListener true
+                }
+                return@setOnMenuItemClickListener false
+            }
+        }
+        binding.btnSearch.setOnClickListener {
+
         }
         binding.btnAddPhoto.setOnClickListener {
             // 갤러리에서 선택하는 Intent 생성
@@ -89,9 +127,8 @@ class InputFragment : Fragment() {
     }
 
 
-    fun initMenuRecyclerView(){
+    /*fun initMenuRecyclerView(){
         val adapter= MenuRecyclerAdapter() //어댑터 객체 만듦
-        Toast.makeText(context, menuData.size.toString() , Toast.LENGTH_SHORT).show()
         adapter.menuList = menuData //데이터 넣어줌
         binding.menuRecyclerView.adapter = adapter
         binding.menuRecyclerView.layoutManager=LinearLayoutManager(context)
@@ -109,5 +146,5 @@ class InputFragment : Fragment() {
             add(MenuItem(R.drawable.img_food, "고기국수", true))
             add(MenuItem(R.drawable.img_food, "육회", true))
         }
-    }
+    }*/
 }
