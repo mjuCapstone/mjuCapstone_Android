@@ -1,15 +1,29 @@
 package com.example.capstonedesign.Fragment
 
+import Data.GoalNutritionInfo
+import Response.AutoLoginResponse
+import Service.AutoLoginService
+import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.example.capstonedesign.Activity.StartActivity
 import com.example.capstonedesign.R
+import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentInputBinding
+import com.example.capstonedesign.databinding.FragmentMainBinding
+import com.example.capstonedesign.databinding.FragmentResultBinding
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.charts.PieChart
@@ -21,9 +35,13 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import retrofit2.Call
+import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,11 +58,27 @@ class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentInputBinding
+    private lateinit var binding: FragmentMainBinding
 
     lateinit var pieChart : PieChart
     lateinit var barChart : BarChart
-    // lateinit var horizontalBarChart: HorizontalBarChart
+    lateinit var nutritionInfo: GoalNutritionInfo// 그래프 색상(데이터 순서)
+    val colors = listOf(
+        Color.parseColor("#E18610"),
+        Color.parseColor("#E8E8E8")
+    )
+    var dietPlanList = listOf(null, "빠른 체중 감소", "느린 체중 감소","체중 유지","느린 체중 증가","빠른 체중 증가")
+
+    private fun showExitConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setMessage("앱을 종료하시겠습니까?")
+            .setPositiveButton("예") { dialog, which ->
+                // Positive Button이 클릭되었을 때 앱을 종료합니다.
+                activity?.finish()
+            }
+            .setNegativeButton("아니오", null)
+            .show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +86,49 @@ class MainFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        //main API 호출
+        var intent : Intent = Intent(requireActivity(), StartActivity::class.java)
+        val autoLoginService = RetrofitClient.setRetroFitInstanceWithToken(requireActivity().applicationContext).create(
+            AutoLoginService::class.java)
+        autoLoginService.autoLogin().enqueue(object : retrofit2.Callback<AutoLoginResponse>{
+            override fun onResponse(
+                call: Call<AutoLoginResponse>,
+                response: Response<AutoLoginResponse>
+            ) {
+                if(response.isSuccessful) {
+                    response.body()?.let {
+                        Log.d("test" , it.status.toString() + " " + it.message)
+                        Log.d("test", it.data.toString())
+                        nutritionInfo = it.data.goalNutritionInfo
+                        binding.nickName.text = nutritionInfo.userName
+                        binding.sucWeight.text = dietPlanList[nutritionInfo.dietPlan]
+                        setPieChart(nutritionInfo.kcal.toFloat(), 0f)
+                    }
+                }
+                else{
+                    Toast.makeText(requireActivity().applicationContext, "로그인 세션이 만료되었습니다. 다시 로그인 하세요", Toast.LENGTH_SHORT).show()
+                    requireActivity().startActivity(intent)
+                    requireActivity().finish()
+                }
+            }
+
+            override fun onFailure(call: Call<AutoLoginResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+        // onBackPressedCallback을 생성하고 활성화합니다.
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 사용자에게 종료 여부를 묻는 dialog를 보여주기
+                showExitConfirmationDialog()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+    fun getCurrentDate() : String{
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("MM/dd", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
     override fun onCreateView(
@@ -59,29 +136,18 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    fun setPieChart(goal_calo : Float , intake_calo : Float){
         // PieChart
-
-        // 데이터 넣어야 하는 부분
-        val goal_calo = 200f
-        val intake_calo = 130f
-        pieChart = view.findViewById(R.id.today_kcal)
+        pieChart = requireView().findViewById(R.id.today_kcal)
 
         val entries = ArrayList<PieEntry>()
         entries.add(PieEntry(intake_calo, ""))
         entries.add(PieEntry(goal_calo - intake_calo, ""))
 
-        // 그래프 색상(데이터 순서)
-        val colors = listOf(
-            Color.parseColor("#E18610"),
-            Color.parseColor("#E8E8E8")
-        )
+
 
         // 데이터, 색상, 글자크기 및 색상 설정
         val dataSet = PieDataSet(entries, "")
@@ -93,8 +159,9 @@ class MainFragment : Fragment() {
         pieChart.data = dataMPchart
         // 중앙 텍스트를 설정하여 섭취량 표시
         pieChart.centerText =
-            String.format("칼로리 \n%.1f kcal / %.1f kacl", intake_calo, goal_calo)
-        pieChart.setCenterTextSize(8f)
+            String.format("%d kcal \n/ %d kcal", intake_calo.toInt(), goal_calo.toInt())
+        pieChart.setCenterTextSize(10f)
+        pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
         // pieChart.radius = 200f
         // 범례와 그래프 설명 비활성화
         pieChart.legend.isEnabled = false
@@ -102,8 +169,11 @@ class MainFragment : Fragment() {
         // 그래프 업데이트
         pieChart.invalidate()
         pieChart.animateY(2000)
+    }
 
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // 주간 영양소 BarChart
 
@@ -111,6 +181,8 @@ class MainFragment : Fragment() {
 
         val wentries = ArrayList<BarEntry>()
         val wlabels = ArrayList<String>()
+
+        val currentDate = getCurrentDate()
 
         wentries.add(BarEntry(0f, 6f))
         wentries.add(BarEntry(1f, 2f))
@@ -126,7 +198,7 @@ class MainFragment : Fragment() {
         wlabels.add("Thu")
         wlabels.add("Fri")
         wlabels.add("Sat")
-        wlabels.add("Sun")
+        wlabels.add(currentDate)
 
         val wdataSet = BarDataSet(wentries, "Bar Chart")
 

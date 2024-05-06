@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        //setTheme(androidx.transition.R.style.Theme_AppCompat_Light)
         setContentView(R.layout.activity_main)
 
         //하단 네비게이션 바 설정
