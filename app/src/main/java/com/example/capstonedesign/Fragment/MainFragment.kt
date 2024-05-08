@@ -13,16 +13,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.PopupMenu
+import java.util.Calendar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.example.capstonedesign.Activity.StartActivity
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
+import com.example.capstonedesign.databinding.FragmentInputBinding
 import com.example.capstonedesign.databinding.FragmentMainBinding
+import com.example.capstonedesign.databinding.FragmentResultBinding
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -35,7 +43,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import retrofit2.Call
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.Calendar
+
 import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
@@ -99,10 +107,22 @@ class MainFragment : Fragment() {
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
-    fun getCurrentDate() : String{
-        val calendar = Calendar.getInstance()
+    fun getWeekDates(): Array<String?> {
+        val weekDate = arrayOfNulls<String>(7) // 7일간의 날짜를 저장할 배열 생성
+        val calendar = Calendar.getInstance() // 현재 날짜와 시간을 얻음
+
+        // 어제 날짜로 설정
+        calendar.add(Calendar.DATE, -1)
+
         val dateFormat = SimpleDateFormat("MM/dd", Locale.getDefault())
-        return dateFormat.format(calendar.time)
+        // 날짜 형식 지정
+
+        // 어제부터 8일 전까지 날짜를 배열에 저장
+        for (i in 0 until 7) {
+            weekDate[i] = dateFormat.format(calendar.time) // 현재 설정된 날짜를 배열에 저장
+            calendar.add(Calendar.DATE, -1) // 하루를 뺌
+        }
+        return weekDate
     }
 
     override fun onCreateView(
@@ -163,7 +183,7 @@ class MainFragment : Fragment() {
         val wentries = ArrayList<BarEntry>()
         val wlabels = ArrayList<String>()
 
-        val currentDate = getCurrentDate()
+        val currentDate: Array<String?> = getWeekDates()
 
         wentries.add(BarEntry(0f, 6f))
         wentries.add(BarEntry(1f, 2f))
@@ -173,13 +193,9 @@ class MainFragment : Fragment() {
         wentries.add(BarEntry(5f, 5f))
         wentries.add(BarEntry(6f, 5f))
 
-        wlabels.add("Mon")
-        wlabels.add("Tue")
-        wlabels.add("Wed")
-        wlabels.add("Thu")
-        wlabels.add("Fri")
-        wlabels.add("Sat")
-        wlabels.add(currentDate)
+        for (i in 6 downTo 0) {
+            wlabels.add(currentDate[i]!!) // 현재 설정된 날짜를 배열에 저장
+        }
 
         val wdataSet = BarDataSet(wentries, "Bar Chart")
 
@@ -224,6 +240,7 @@ class MainFragment : Fragment() {
         barChart.axisRight.isEnabled = false
         barChart.description.isEnabled = false
         barChart.legend.isEnabled = false
+        barChart.setTouchEnabled(false)
 
         barChart.enableScroll()
 
@@ -326,9 +343,49 @@ class MainFragment : Fragment() {
         barChart.axisRight.isEnabled = false
         barChart.description.isEnabled = false
         barChart.legend.isEnabled = false
+        barChart.setTouchEnabled(false)
 
-        barChart.enableScroll()*/
+        barChart.enableScroll()
 
+        */
+        //popupmenu
+        var btnNutrition = view.findViewById<Button>(R.id.btnNutrition)
+        btnNutrition.setOnClickListener {
+            var activity : AppCompatActivity = context as AppCompatActivity
+            var popupMenuNutri = PopupMenu(activity.applicationContext, it)
+            activity.menuInflater?.inflate(R.menu.main_nutrition, popupMenuNutri.menu)
+            popupMenuNutri.show()
+            popupMenuNutri.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.main_kcal -> {
+                        btnNutrition.setText("Kcal")
+                        return@setOnMenuItemClickListener true
+                    }
+
+                    R.id.main_carbo -> {
+                        btnNutrition.setText("탄수화물")
+                        return@setOnMenuItemClickListener true
+
+                    }
+
+                    R.id.main_protein -> {
+                        btnNutrition.setText("단백질")
+                        return@setOnMenuItemClickListener true
+
+                    }
+
+                    R.id.main_fat -> {
+                        btnNutrition.setText("지방")
+                        return@setOnMenuItemClickListener true
+
+                    }
+
+                    else -> {
+                        return@setOnMenuItemClickListener false
+                    }
+                }
+            }
+        }
     }
 
 
