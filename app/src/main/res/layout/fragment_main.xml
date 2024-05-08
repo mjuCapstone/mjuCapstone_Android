@@ -10,28 +10,12 @@
     android:background="@android:color/transparent"
     tools:context=".Activity.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="0.7"
-        android:layout_margin="15dp"
-        android:gravity="center">
-    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5">
-        <View
-            android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray"
-            android:layout_width="match_parent"
-            android:layout_height="4px"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_weight="3"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
@@ -87,6 +71,19 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3">
+        <View
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="4px"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="horizontal"
@@ -109,19 +106,72 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50pt"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="end">
+            android:gravity="end"
+            android:orientation="vertical">
 
-            <com.github.mikephil.charting.charts.BarChart
+            <!--com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/daily_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"/-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="탄수화물"
+                android:textSize="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/inter"/>
+            <com.example.capstonedesign.TextProgressBar
+                android:id="@+id/pbCarbo"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:baselineAligned="false"
+                android:progress="50"
+                android:progressDrawable="@drawable/custom_progressbar" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="단백질"
+                android:textSize="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/inter"/>
+            <com.example.capstonedesign.TextProgressBar
+                android:id="@+id/pbProtein"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:baselineAligned="false"
+                android:progress="50"
+                android:progressDrawable="@drawable/custom_progressbar"
+                android:progressTint="#7ADB8F"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="지방"
+                android:textSize="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/inter"/>
+            <com.example.capstonedesign.TextProgressBar
+                android:id="@+id/pbFat"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:baselineAligned="false"
+                android:progress="50"
+                android:progressDrawable="@drawable/custom_progressbar"
+                android:progressTint="#FF4646"/>
 
         </LinearLayout>
 

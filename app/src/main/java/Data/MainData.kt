@@ -2,5 +2,5 @@ package Data
 
 data class MainData(
     var goalNutritionInfo : GoalNutritionInfo,
-    var historyInfoList : List<HistoryInfo>?
+    var historyInfoList : Map<String,HistoryInfo>
 )
