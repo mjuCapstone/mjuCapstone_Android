@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragment.PrefFragment">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="FREF FRAGMENT"
-        android:textSize="40dp"
-        android:textStyle="bold"/>
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="left | center"
+        android:text="내가 찜한 메뉴"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inter_bold"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/prefRecyclerView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-</FrameLayout>
+</LinearLayout>

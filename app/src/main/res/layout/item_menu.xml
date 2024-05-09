@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <ImageView
+            android:id="@+id/menuItemImage"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1.4"
+            android:background="@drawable/rounded_frame"
+            android:src="@drawable/img_pork_cutlet"
+            android:scaleType="centerInside"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1.6"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:weightSum="6">
+            <TextView
+                android:id="@+id/menuItemName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="left | center"
+                android:text="카레 돈가스"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/inter_bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left | center"
+                    android:text="총 칼로리"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:textColor="@color/app_color"/>
+                <TextView
+                    android:id="@+id/menuItemKcal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right | center"
+                    android:text="1200 kcal"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/app_color"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left | center"
+                    android:text="탄수화물"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/menuItemCarbo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right | center"
+                    android:text="140g"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left | center"
+                    android:text="단백질"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/menuItemProtein"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right | center"
+                    android:text="30g"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left | center"
+                    android:text="지방"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/menuItemFat"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right | center"
+                    android:text="34g"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3">
+        <View
+            android:background="#EAEAEA"
+            android:layout_width="match_parent"
+            android:layout_height="4px"/>
+    </LinearLayout>
+
+</LinearLayout>

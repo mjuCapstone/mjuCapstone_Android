@@ -1,7 +1,11 @@
 package Data
 
 data class MenuItem(
-    var imgNum : Int,
+    var id : Int,
     var name : String,
-    var isPrefer : Boolean
+    var kcal : Int,
+    var carbohydrate : Int,
+    var protein : Int,
+    var fat : Int,
+    var fileName : String
 )

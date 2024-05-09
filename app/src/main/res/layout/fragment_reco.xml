@@ -1,17 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.RecoFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".Fragment.RecoFragment"
+    android:orientation="vertical"
+    android:weightSum="9">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:weightSum="3">
+        <Button
+            android:id="@+id/btnCategory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/custom_button"
+            android:text="카테고리"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/inter"/>
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/custom_button"
+            android:text="대분류명"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/inter"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/custom_button"
+            android:text="성분"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/inter"/>
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="RECO FRAGMENT"
-        android:textSize="40dp"
-        android:textStyle="bold"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:layout_marginLeft="20dp"
+        android:gravity="left | center"
+        android:text="오늘의 추천메뉴"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.5"/>
+
+
+
+</LinearLayout>

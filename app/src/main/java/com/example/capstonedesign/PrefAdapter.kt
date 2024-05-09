@@ -1,15 +1,16 @@
 package com.example.capstonedesign
 
 import Data.MenuItem
+import Data.PrefItem
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.capstonedesign.databinding.ItemMenuSearchBinding
+import com.example.capstonedesign.databinding.ItemPrefBinding
 
-class MenuRecyclerAdapter : RecyclerView.Adapter<MenuRecyclerAdapter.MenuViewHolder>() {
-    var menuList = mutableListOf<MenuItem>()
-    inner class MenuViewHolder(private val binding : ItemMenuSearchBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(menuItem: MenuItem){
+class PrefAdapter : RecyclerView.Adapter<PrefAdapter.MenuViewHolder>() {
+    var menuList = mutableListOf<PrefItem>()
+    inner class MenuViewHolder(private val binding : ItemPrefBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(menuItem: PrefItem){
             binding.btnMenu.setImageResource(menuItem.imgNum)
             binding.tvMenuName.text = menuItem.name
             binding.btnLike.setOnClickListener {
@@ -32,7 +33,7 @@ class MenuRecyclerAdapter : RecyclerView.Adapter<MenuRecyclerAdapter.MenuViewHol
     }
     //만들어진 뷰홀더 없을때 뷰홀더(레이아웃) 생성하는 함수
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        val binding= ItemMenuSearchBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding= ItemPrefBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return MenuViewHolder(binding)
     }
 

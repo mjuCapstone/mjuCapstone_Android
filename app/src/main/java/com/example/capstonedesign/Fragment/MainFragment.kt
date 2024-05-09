@@ -165,6 +165,8 @@ class MainFragment : Fragment() {
     }
 
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -177,8 +179,8 @@ class MainFragment : Fragment() {
 
         val currentDate: Array<String?> = getWeekDates()
 
-        wentries.add(BarEntry(0f, 6f))
-        wentries.add(BarEntry(1f, 2f))
+        wentries.add(BarEntry(0f, 100f))
+        wentries.add(BarEntry(1f, 200f))
         wentries.add(BarEntry(2f, 3.5f))
         wentries.add(BarEntry(3f, 3f))
         wentries.add(BarEntry(4f, 4f))
