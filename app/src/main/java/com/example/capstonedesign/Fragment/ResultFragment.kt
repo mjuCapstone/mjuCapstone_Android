@@ -1,19 +1,27 @@
 package com.example.capstonedesign.Fragment
 
+import Data.AddItemData
+import Data.MenuItem
+import Response.AddItemResponse
+import Service.AddItemService
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.doinglab.foodlens2.sdk.FoodLens
@@ -24,8 +32,14 @@ import com.doinglab.foodlens2.sdk.model.FoodInfo
 import com.doinglab.foodlens2.sdk.model.Nutrition
 import com.doinglab.foodlens2.sdk.model.RecognitionResult
 import com.example.capstonedesign.R
+import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentResultBinding
 import okhttp3.internal.notifyAll
+import retrofit2.Call
+import retrofit2.Response
+import retrofit2.Retrofit
+import java.io.File
+import java.time.LocalDateTime
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,10 +59,8 @@ class ResultFragment : Fragment() {
     private lateinit var menuList : ArrayList<FoodInfo>
     private var menuNum : Int = 0
     private var menuIndex = 0
-    private var kcal = 0;
-    private var carbo = 0;
-    private var protein = 0;
-    private var fat = 0;
+    private var fileName :String = ""
+    private lateinit var curMenu : AddItemData
     private lateinit var bitmap : Bitmap
     private lateinit var croppedBitmap : Bitmap
 
@@ -65,6 +77,7 @@ class ResultFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Create Network Service
@@ -114,6 +127,10 @@ class ResultFragment : Fragment() {
             var btnConfirm : Button = dialog.findViewById(R.id.btnConfirm)
             btnConfirm.setOnClickListener {
                 setInfo(edtGram.text.toString().toInt(), edtServing.text.toString().toInt())
+                binding.ivMenuImage.setImageBitmap(requireContext().openFileInput(curMenu.fileName).use{ fis ->
+                    Log.d("test", "이미지 불러오는 중..")
+                    BitmapFactory.decodeStream(fis)
+                })
                 dialog.dismiss()
             }
             var btnCancel : Button = dialog.findViewById(R.id.btnCancel)
@@ -126,41 +143,56 @@ class ResultFragment : Fragment() {
         }
 
         binding.btnNext.setOnClickListener {
-            //sharedPreference에 영양성분 반영
-            var activity : AppCompatActivity = context as AppCompatActivity
-            var preferences = activity.getSharedPreferences("APP", AppCompatActivity.MODE_PRIVATE)
-            var editor = preferences.edit()
-            editor.putInt("nowKcal" , preferences.getInt("nowKcal",0) + kcal)
-            editor.putInt("nowCarbo" , preferences.getInt("nowCarbo",0) + carbo)
-            editor.putInt("nowProtein" , preferences.getInt("nowProtein",0) + protein)
-            editor.putInt("nowFat" , preferences.getInt("nowFat",0) + fat)
-            editor.apply()
-            Log.d("test", preferences.getInt("nowKcal",0).toString() + " " + preferences.getInt("nowCarbo",0).toString() + " " + preferences.getInt("nowProtein",0).toString() + " " + preferences.getInt("nowFat",0))
-            if(binding.btnNext.text.equals("확인")){
-                var action = ResultFragmentDirections.actionResultFragmentToMainFragment()
-                findNavController().navigate(action)
-            }
-            else{
-                menuIndex++
-                setView()
-            }
+
+            //서버에 메뉴 아이템 정보 전송
+            val addItemService = RetrofitClient.setRetroFitInstanceWithToken(requireContext()).create(AddItemService::class.java)
+            addItemService.addItem(curMenu).enqueue(object : retrofit2.Callback<AddItemResponse>{
+                override fun onResponse(
+                    call: Call<AddItemResponse>,
+                    response: Response<AddItemResponse>
+                ) {
+                    if(response.isSuccessful) {
+                        if (binding.btnNext.text.equals("확인")) {
+                            var action =
+                                ResultFragmentDirections.actionResultFragmentToMainFragment()
+                            findNavController().navigate(action)
+
+                        } else {
+                            menuIndex++
+                            setView()
+                        }
+                    }
+                    Toast.makeText(requireContext(), "메뉴 업로드에 실패하였습니다.\n 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailure(call: Call<AddItemResponse>, t: Throwable) {
+                    Toast.makeText(requireContext(), "메뉴 업로드에 실패하였습니다.\n 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                }
+
+            })
         }
     }
-    fun setInfo(gram : Int, person : Int){
-        var menu = menuList.get(menuIndex)
-        binding.tvGram.text = gram.toString() + " g"
-        binding.tvPerson.text = person.toString() + " 인분"
+
+    fun setInfo(amount : Int, person : Int){
         // 칼로리 및 영양성분 계산
-        var dif = gram / menu.baseNutrition?.gram!! / person
-        kcal = (dif * menu.baseNutrition?.energy!!).toInt()
-        carbo = (dif * menu.baseNutrition?.carbohydrate!!).toInt()
-        protein = (dif * menu.baseNutrition?.protein!!).toInt()
-        fat = (dif * menu.baseNutrition?.fat!!).toInt()
-        binding.tvCalorie.text = kcal.toString() + " kcal"
-        binding.tvCarbo.text = carbo.toString() + " g"
-        binding.tvProtein.text = protein.toString() + " g"
-        binding.tvFat.text = fat.toString() + " g"
+        var menu = menuList.get(menuIndex)
+        curMenu.amount = amount
+        curMenu.serving = person
+        var dif = amount / menu.baseNutrition?.gram!! / person
+        curMenu.kcal = (dif * menu.baseNutrition?.energy!!).toInt()
+        curMenu.carbohydrate = (dif * menu.baseNutrition?.carbohydrate!!).toInt()
+        curMenu.protein = (dif * menu.baseNutrition?.protein!!).toInt()
+        curMenu.fat = (dif * menu.baseNutrition?.fat!!).toInt()
+
+        //텍스트뷰 설정
+        binding.tvGram.text = amount.toString() + " g"
+        binding.tvPerson.text = person.toString() + " 인분"
+        binding.tvCalorie.text = curMenu.kcal.toString() + " kcal"
+        binding.tvCarbo.text = curMenu.carbohydrate.toString() + " g"
+        binding.tvProtein.text = curMenu.protein.toString() + " g"
+        binding.tvFat.text = curMenu.fat.toString() + " g"
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setView(){
         var menu = menuList.get(menuIndex)
         if(menu.name == null){
@@ -176,22 +208,29 @@ class ResultFragment : Fragment() {
             if(x + width <= bitmap.width && y + height <= bitmap.height) {
                 croppedBitmap = Bitmap.createBitmap(bitmap, x, y, width, height)
                 binding.ivMenuImage.setImageBitmap(croppedBitmap)
+
+                //생성된 bitmap 파일 로컬 저장소에 저장
+                fileName = menu.fullName!!.split("(")[0] + "_" + LocalDateTime.now().toString()
+                requireContext().openFileOutput(fileName, Context.MODE_PRIVATE).use{ fos->
+                    croppedBitmap.compress(Bitmap.CompressFormat.PNG, 100 , fos)
+                }
+                // 파일 경로 얻기
+                val filePath = File(requireContext().filesDir, fileName).absolutePath
+                Log.d("test", "Saved file path: $filePath")
             }
             else{
                 Log.d("test", x.toString() + " " + width.toString() + " " + y.toString() + " " + height.toString())
                 Log.d("test", bitmap.width.toString() + " " + bitmap.height.toString())
             }
-            binding.tvMenuResultName.text = menu.fullName!!.split("(")[0]
-            var gram = menu.gram.toInt().toString() + " g"
-            kcal = menu.energy.toInt()
-            carbo = menu.carbohydrate.toInt()
-            protein = menu.protein.toInt()
-            fat = menu.fat.toInt()
-            binding.tvGram.text = gram
-            binding.tvCalorie.text = kcal.toString() + " kcal"
-            binding.tvCarbo.text = carbo.toString() + " g"
-            binding.tvProtein.text = protein.toString() + " g"
-            binding.tvFat.text = fat.toString() + " g"
+            curMenu = AddItemData(menu.fullName!!.split("(")[0], menu.gram.toInt(), 1, menu.energy.toInt(),
+                menu.carbohydrate.toInt(), menu.protein.toInt(), menu.fat.toInt(), fileName)
+            binding.tvMenuResultName.text = curMenu.name
+            var amount = curMenu.amount.toString() + " g"
+            binding.tvGram.text = amount
+            binding.tvCalorie.text = curMenu.kcal.toString() + " kcal"
+            binding.tvCarbo.text = curMenu.carbohydrate.toString() + " g"
+            binding.tvProtein.text = curMenu.protein.toString() + " g"
+            binding.tvFat.text = curMenu.fat.toString() + " g"
             val n : Nutrition? = menu.baseNutrition
             Log.d("test", "음식명 : " + menu.name + ", 음식명(재료포함) : " + menu.fullName)
             Log.d("test", "권장량\n양: " + n?.gram!!.toInt().toString() + " 칼로리: " + n?.energy!!.toInt().toString() + " 탄수화물 : " + n?.carbohydrate!!.toInt().toString() + "'\n 단백질 : " + n?.protein!!.toInt().toString() + " 지방 : " + n?.fat!!.toString())

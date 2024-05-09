@@ -266,68 +266,6 @@ class MainFragment : Fragment() {
                 TODO("Not yet implemented")
             }
         })
-        // 상단 오른쪽 BarChart
-
-        /*barChart = view.findViewById(R.id.daily_info)
-        val hentries = ArrayList<BarEntry>()
-        val hlabels = ArrayList<String>()
-        val hcolors = ArrayList<Int>()
-
-        hentries.add(BarEntry(0f, 6f))
-        hentries.add(BarEntry(1f, 2f))
-        hentries.add(BarEntry(2f, 3.5f))
-
-        hlabels.add("Carbo")
-        hlabels.add("Protein")
-        hlabels.add("Fat")
-
-        hcolors.add(Color.parseColor("#896687"))
-        hcolors.add(Color.parseColor("#897987"))
-        hcolors.add(Color.parseColor("#822987"))
-
-        val hdataSet = BarDataSet(hentries, "Bar Chart")
-        hdataSet.colors = colors
-
-        val hdata = BarData(hdataSet)
-        hdata.barWidth = 0.3f
-        hdata.setValueTextSize(6f)
-
-        barChart.data = hdata
-        barChart.axisLeft.axisMinimum = 0f
-
-        val xAxis = barChart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        xAxis.labelCount = hlabels.size
-
-        xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                val index = value.toInt()
-
-                if (index >= 0 && index < hlabels.size) {
-                    return hlabels[index]
-                }
-                return ""
-
-            }
-        }
-
-        barChart.animateY(500) // this animates the graph
-
-        barChart.xAxis.setDrawGridLines(false)
-        barChart.xAxis.setDrawAxisLine(false)
-
-        barChart.axisLeft.setDrawTopYLabelEntry(false)
-        barChart.axisLeft.setDrawLimitLinesBehindData(false)
-        barChart.axisLeft.setDrawAxisLine(false)
-        barChart.axisLeft.setDrawZeroLine(false)
-
-        barChart.axisLeft.isEnabled = false
-        barChart.axisRight.isEnabled = false
-        barChart.description.isEnabled = false
-        barChart.legend.isEnabled = false
-
-        barChart.enableScroll()*/
 
     }
 
