@@ -17,9 +17,9 @@ class MenuAdapter(private val context : Context) : RecyclerView.Adapter<MenuAdap
         fun bind(menuItem: MenuItem) {
             binding.menuItemImage.setImageBitmap(loadBitmapFromFile(menuItem.fileName))
             binding.menuItemName.text = menuItem.name
-            binding.menuItemCarbo.text = menuItem.carbohydrate
-            binding.menuItemProtein.text = menuItem.protein
-            binding.menuItemFat.text = menuItem.fat
+            binding.menuItemCarbo.text = menuItem.carbohydrate.toString()
+            binding.menuItemProtein.text = menuItem.protein.toString()
+            binding.menuItemFat.text = menuItem.fat.toString()
         }
     }
 

@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
@@ -99,6 +101,8 @@ class MainFragment : Fragment() {
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
+
+    // 일주일 날짜 가져오는 함수
     fun getWeekDates(): Array<String?> {
         val weekDate = arrayOfNulls<String>(7) // 7일간의 날짜를 저장할 배열 생성
         val calendar = Calendar.getInstance() // 현재 날짜와 시간을 얻음
@@ -164,28 +168,89 @@ class MainFragment : Fragment() {
         pieChart.animateY(2000)
     }
 
+    fun setBarChart(index : Int){
+        // BarChart
+        barChart = requireView().findViewById(R.id.weekly_info)
 
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // 주간 영양소 BarChart
-
-        barChart = view.findViewById(R.id.weekly_info)
-
+        // 각 영양소들의 값
         val wentries = ArrayList<BarEntry>()
+
+        // 라벨
         val wlabels = ArrayList<String>()
 
+        // 어제부터 8일전까지의 날짜
         val currentDate: Array<String?> = getWeekDates()
 
-        wentries.add(BarEntry(0f, 100f))
-        wentries.add(BarEntry(1f, 200f))
-        wentries.add(BarEntry(2f, 3.5f))
-        wentries.add(BarEntry(3f, 3f))
-        wentries.add(BarEntry(4f, 4f))
-        wentries.add(BarEntry(5f, 5f))
-        wentries.add(BarEntry(6f, 5f))
+        val tot_nutrition = ArrayList<Float>()
+
+        when(index){
+            0 -> {
+            // historyList["1"] 부터 historyList["7"] 까지의 tot_kcal
+                for (i in 1..7) {
+                    // historyList에서 해당 키의 객체를 가져와서 tot_kcal 값을 test_tot_kcal에 추가
+                    // tot_kcal이 null이 아닌 경우에만 toFloat()을 호출하여 ArrayList에 추가
+                    historyList[i.toString()]?.tot_kcal?.toFloat()?.let {
+                        tot_nutrition.add(it)
+                    }
+                }
+
+                for (i in 0 until 7) {
+                    // i를 사용하여 test_tot_kcal에서 필요한 값을 가져온 후,
+                    // BarEntry의 x 위치를 결정하기 위해 (test_tot_kcal.size - 1 - i).toFloat()를 사용합니다.
+                    wentries.add(BarEntry((6-i).toFloat(), tot_nutrition[i]))
+                }
+            }
+
+            1 -> {
+            // historyList["1"] 부터 historyList["7"] 까지의 tot_kcal
+                for (i in 1..7) {
+                // historyList에서 해당 키의 객체를 가져와서 tot_kcal 값을 test_tot_kcal에 추가
+                // tot_kcal이 null이 아닌 경우에만 toFloat()을 호출하여 ArrayList에 추가
+                    historyList[i.toString()]?.tot_carbohydrate?.toFloat()?.let {
+                        tot_nutrition.add(it)
+                    }
+                }
+
+                for (i in 0 until 7) {
+                    // i를 사용하여 test_tot_kcal에서 필요한 값을 가져온 후,
+                    // BarEntry의 x 위치를 결정하기 위해 (test_tot_kcal.size - 1 - i).toFloat()를 사용합니다.
+                    wentries.add(BarEntry((6-i).toFloat(), tot_nutrition[i]))
+                }
+            }
+
+            2 -> {
+                // historyList["1"] 부터 historyList["7"] 까지의 tot_kcal
+                for (i in 1..7) {
+                    // historyList에서 해당 키의 객체를 가져와서 tot_kcal 값을 test_tot_kcal에 추가
+                    // tot_kcal이 null이 아닌 경우에만 toFloat()을 호출하여 ArrayList에 추가
+                    historyList[i.toString()]?.tot_protein?.toFloat()?.let {
+                        tot_nutrition.add(it)
+                    }
+                }
+
+                for (i in 0 until 7) {
+                    // i를 사용하여 test_tot_kcal에서 필요한 값을 가져온 후,
+                    // BarEntry의 x 위치를 결정하기 위해 (test_tot_kcal.size - 1 - i).toFloat()를 사용합니다.
+                    wentries.add(BarEntry((6 - i).toFloat(), tot_nutrition[i]))
+                }
+            }
+
+            3 -> {// historyList["1"] 부터 historyList["7"] 까지의 tot_kcal
+                for (i in 1..7) {
+                    // historyList에서 해당 키의 객체를 가져와서 tot_kcal 값을 test_tot_kcal에 추가
+                    // tot_kcal이 null이 아닌 경우에만 toFloat()을 호출하여 ArrayList에 추가
+                    historyList[i.toString()]?.tot_fat?.toFloat()?.let {
+                        tot_nutrition.add(it)
+                    }
+                }
+
+                for (i in 0 until 7) {
+                    // i를 사용하여 test_tot_kcal에서 필요한 값을 가져온 후,
+                    // BarEntry의 x 위치를 결정하기 위해 (test_tot_kcal.size - 1 - i).toFloat()를 사용합니다.
+                    wentries.add(BarEntry((6 - i).toFloat(), tot_nutrition[i]))
+                }
+            }
+        }
 
         for (i in 6 downTo 0) {
             wlabels.add(currentDate[i]!!) // 현재 설정된 날짜를 배열에 저장
@@ -230,13 +295,61 @@ class MainFragment : Fragment() {
         barChart.axisLeft.setDrawAxisLine(false)
         barChart.axisLeft.setDrawZeroLine(false)
 
+        // 차트 축 비활성화 및 범례와 설명 비활성화
         barChart.axisLeft.isEnabled = false
         barChart.axisRight.isEnabled = false
         barChart.description.isEnabled = false
         barChart.legend.isEnabled = false
 
         barChart.enableScroll()
+    }
 
+    fun setNutriButton(){
+        var nutriInfo : Int = -1 // 1 : KCAL 2 : 탄수화물 , 3 : 단백질 4 : 지방
+        var btnnutriInfo : Button = requireView().findViewById(R.id.btnNutrition)
+        btnnutriInfo.setOnClickListener {
+            var popupMenu = PopupMenu(requireContext(), it)
+            requireActivity().menuInflater?.inflate(R.menu.main_nutrition, popupMenu.menu)
+            popupMenu.show()
+            popupMenu.setOnMenuItemClickListener {
+                when(it.itemId){
+                    R.id.main_kcal -> {
+                        btnnutriInfo.setText("KCAL")
+                        setBarChart(0)
+                        return@setOnMenuItemClickListener true
+                    }
+                    R.id.main_carbo -> {
+                        btnnutriInfo.setText("탄수화물")
+                        setBarChart(1)
+                        return@setOnMenuItemClickListener true
+
+                    }
+                    R.id.main_protein -> {
+                        btnnutriInfo.setText("단백질")
+                        setBarChart(2)
+                        return@setOnMenuItemClickListener true
+
+                    }
+                    R.id.main_fat -> {
+                        btnnutriInfo.setText("지방")
+                        setBarChart(3)
+                        return@setOnMenuItemClickListener true
+
+                    }
+                    else ->{
+                        return@setOnMenuItemClickListener false
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         //main API 호출
         var intent : Intent = Intent(requireActivity(), StartActivity::class.java)
@@ -263,6 +376,8 @@ class MainFragment : Fragment() {
                             binding.pbProtein.setProgressBar(it!!.tot_protein, info.protein)
                             binding.pbFat.setProgressBar(it!!.tot_fat , info.fat)
                         }
+                        setBarChart(0)
+                        setNutriButton()
                     }
                 }
                 else{

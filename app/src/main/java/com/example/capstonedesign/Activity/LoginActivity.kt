@@ -16,6 +16,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.capstonedesign.Fragment.HistoryFragment
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
 import retrofit2.Call
