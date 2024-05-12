@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/review"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="9"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    tools:context=".Activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/history_today_eat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="내가 먹은 메뉴"
+            android:textColor="#2F2D2C"
+            android:textSize="21dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_marginLeft="30dp"
+
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/history_today"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="2024. 03 .19"
+            android:textColor="#2F2D2C"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/history_calendar"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="0.2"
+            android:layout_gravity="center"
+            android:src="@drawable/img_history_calendar" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+
+        <View
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="4px"/>
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hitory_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
+
+
+
+</LinearLayout>
+
