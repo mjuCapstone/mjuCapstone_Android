@@ -51,4 +51,8 @@
         android:name="com.example.capstonedesign.Fragment.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.capstonedesign.Fragment.HistoryFragment"
+        android:label="HistoryFragment" />
 </navigation>

@@ -3,23 +3,36 @@ package com.example.capstonedesign.Fragment
 import Data.MenuItem
 import Data.PrefItem
 import Data.HistoryInfo
+import Response.AutoLoginResponse
+import Response.HistoryResponse
+import Service.AutoLoginService
+import Service.HistoryService
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.DatePicker
+import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.capstonedesign.Activity.StartActivity
 import com.example.capstonedesign.MenuAdapter
 import com.example.capstonedesign.PrefAdapter
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentHistoryBinding
+import com.example.capstonedesign.databinding.FragmentInputBinding
 import com.example.capstonedesign.databinding.FragmentPrefBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -38,9 +51,10 @@ class HistoryFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var dateText: TextView
+    private lateinit var binding : FragmentHistoryBinding
+    lateinit var menuDataList : MutableList<MenuItem>
 
-
+    private lateinit var adapter : MenuAdapter //adapter객체 먼저 선언해주기!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,108 +87,72 @@ class HistoryFragment : Fragment() {
                 val tMonth: Int = month + 1
                 val date: String = "$year.$tMonth.$day"
                 // 화면에 선택한 날짜 보여주기
-                dateText.text = date
-            }, iYear, iMonth, iDay)
+                binding.historyToday.text = date
+                fetchDataFromServer(date)
 
+            }, iYear, iMonth, iDay
+        )
         datePicker.show()
-
     }
 
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        /*
-        // 현재 날짜를 가져와서
-        var nowDate : String = setnowDate()
-        // history_today에 설정해서 보여줌
-        var textViewDate: TextView = view.findViewById(R.id.history_today)
-        textViewDate.text = nowDate
-         */
-
-        dateText = view.findViewById(R.id.history_today)
-        val dateBtn: Button = view.findViewById(R.id.history_calendar)
-
-        // 버튼 클릭 이벤트
-        dateBtn.setOnClickListener {
-            // 달력 보여주기
-            showDatePicker()
-        }
-
-
-
-        // initList()
-        // initHistoryRecyclerView()
-    }
-
-    /*
-    fun initHistoryRecyclerView(){
-        val adapter = MenuAdapter(requireContext()) //어댑터 객체 만듦
-        adapter.menuList = menuhistoryData //데이터 넣어줌
-        // 서버에 데이터 요청하는 메소드를 써여됨 -> 그래서 메뉴 리스트를 받아와서
-        binding.hitory_recyclerView.adapter = adapter
-        binding.hitory_recyclerView.layoutManager= LinearLayoutManager(context)
-
-        var historyData = HistoryInfo()
-        var loginService = RetrofitClient.retrofitInstance.create(LoginService::class.java)
-        var intent = Intent(this, MainActivity::class.java)
-        loginService.login(loginData).enqueue(object : retrofit2.Callback<LoginResponse>{
+    fun fetchDataFromServer(date: String){
+        val historyService = RetrofitClient.setRetroFitInstanceWithToken(requireContext()).create(
+            HistoryService::class.java)
+        historyService.history(date).enqueue(object : retrofit2.Callback<HistoryResponse> {
             override fun onResponse(
-                call: Call<LoginResponse>,
-                response: Response<LoginResponse>
+                call: Call<HistoryResponse>,
+                response: Response<HistoryResponse>
             ) {
-                Log.d("test", loginData.toString())
-                /*TODO("메인화면 진입 후 뒤로가기 버튼을 눌렀을 때 " +
-                        "어플리케이션을 종료할지 물어볼 것인지 아니면 로그인 화면으로 돌아갈 것인지" +
-                        "정하기")*/
-                //토큰 처리 메소드
-                when(response.code()){
-                    200 -> {
-                        response.body()?.let{
-                            var accessToken = getCurrentToken()
-                            var successData = it.data
-                            if(accessToken != successData.accessToken){
-                                Log.d("test", "토큰 다름")
-                                var editor = preferences.edit()
-                                editor.putString("token", successData.accessToken)
-                                editor.apply()
-                            }
-                            else{
-                                Log.d("test", "토큰 같음")
-                            }
-                            startActivity(intent)
-                            finish()
-                        }
+                if (response.isSuccessful) {
+                    // 응답으로부터 HistoryResponse 객체를 가져옴
+                    val historyResponse = response.body()
+                    // HistoryResponse 객체가 null이 아니고, data 필드에 MenuItem 리스트가 있다면
+                    historyResponse?.data?.let {
+                        menuDataList = it.toMutableList()
+                        initMenuRecyclerView()
+                    } ?: run {
+                        // data가 null인 경우에 여기서 무슨 화면을 보여줄 것인지
                     }
-                    else ->{
-                        print("로그인에 실패하셨습니다.")
-                    }
+                } else {
+                    // 요청이 성공적으로 처리되지 않은 경우의 처리
                 }
             }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.d("errorMsg", t.message.toString())
-                print(t.message.toString())
+            override fun onFailure(call: retrofit2.Call<HistoryResponse>, t: Throwable) {
+                // 네트워크 요청 실패 처리 (예: 로깅)
             }
         })
     }
-     */
 
-    /*
+    fun initMenuRecyclerView(){
+        val adapter= MenuAdapter(requireContext()) //어댑터 객체 만듦
+        adapter.menuList = menuDataList //데이터 넣어줌
+        binding.hitoryRecyclerView.adapter = adapter
+        binding.hitoryRecyclerView.layoutManager= LinearLayoutManager(context)
+    }
 
-    fun initList(){
-        with(menuData){
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "김치볶음밥", true))
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "볶음밥", false))
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "참치볶음밥", false))
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "김치찌개", true))
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "스테이크", true))
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "비빔밥", false))
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "고기국수", true))
-            add(PrefItem(com.example.capstonedesign.R.drawable.img_food, "육회", true))
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentHistoryBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 현재 날짜를 가져와서
+        val nowDate: String = setnowDate()
+        // history_today에 설정해서 보여줌
+        binding.historyToday.text = nowDate
+
+        // 버튼 클릭 이벤트
+        binding.historyCalendar.setOnClickListener{
+            showDatePicker()
         }
     }
-    */
 
     companion object {
         /**

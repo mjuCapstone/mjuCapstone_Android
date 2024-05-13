@@ -49,6 +49,10 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(R.id.prefFragment)
                         return@setOnMenuItemClickListener true
                     }
+                    R.id.itemHistory ->{
+                        navController.navigate(R.id.historyFragment)
+                        return@setOnMenuItemClickListener true
+                    }
                     else ->{
                         return@setOnMenuItemClickListener false
                     }

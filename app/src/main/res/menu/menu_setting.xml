@@ -4,4 +4,6 @@
         android:title="내 정보"/>
     <item android:id="@+id/itemPreference"
         android:title="선호 메뉴 관리"/>
+    <item android:id="@+id/itemHistory"
+        android:title="섭취 메뉴 이력 관리"/>
 </menu>

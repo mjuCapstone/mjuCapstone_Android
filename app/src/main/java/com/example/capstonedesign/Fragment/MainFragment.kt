@@ -66,6 +66,15 @@ class MainFragment : Fragment() {
         Color.parseColor("#E18610"),
         Color.parseColor("#E8E8E8")
     )
+    val colors2 = listOf(
+        Color.parseColor("#FBA7FD"),
+        Color.parseColor("#FA95D7"),
+        Color.parseColor("#AE46FF"),
+        Color.parseColor("#7ADB8F"),
+        Color.parseColor("#FBA7FD"),
+        Color.parseColor("#FA95D7"),
+        Color.parseColor("#AE46FF")
+    )
     var dietPlanList = listOf(null, "빠른 체중 감소", "느린 체중 감소","체중 유지","느린 체중 증가","빠른 체중 증가")
 
     private fun showExitConfirmationDialog() {
@@ -257,8 +266,7 @@ class MainFragment : Fragment() {
         }
 
         val wdataSet = BarDataSet(wentries, "Bar Chart")
-
-        wdataSet.setColors(ColorTemplate.MATERIAL_COLORS, 255)
+        wdataSet.colors = colors2
 
         val wdata = BarData(wdataSet)
         wdata.barWidth = 0.3f
