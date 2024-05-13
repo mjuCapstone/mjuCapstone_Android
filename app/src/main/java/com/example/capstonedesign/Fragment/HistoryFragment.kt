@@ -67,7 +67,7 @@ class HistoryFragment : Fragment() {
     fun setnowDate() : String {
         val nowDate : String
         val calendar = Calendar.getInstance() // 현재 날짜와 시간을 얻음
-        val dateFormat = SimpleDateFormat("YYYY.MM.dd", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("YYYY-MM-dd", Locale.getDefault())
         nowDate = dateFormat.format(calendar.time)
         return nowDate
     }
@@ -85,7 +85,8 @@ class HistoryFragment : Fragment() {
             DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
                 // 1월은 0부터 시작해서 +1
                 val tMonth: Int = month + 1
-                val date: String = "$year.$tMonth.$day"
+                val date: String = String.format("%d-%02d-%02d", year, tMonth, day)
+
                 // 화면에 선택한 날짜 보여주기
                 binding.historyToday.text = date
                 fetchDataFromServer(date)
@@ -96,6 +97,7 @@ class HistoryFragment : Fragment() {
     }
 
     fun fetchDataFromServer(date: String){
+        Log.d("test", "fetchDataFromServer 호출 " + date)
         val historyService = RetrofitClient.setRetroFitInstanceWithToken(requireContext()).create(
             HistoryService::class.java)
         historyService.history(date).enqueue(object : retrofit2.Callback<HistoryResponse> {
@@ -106,6 +108,7 @@ class HistoryFragment : Fragment() {
                 if (response.isSuccessful) {
                     // 응답으로부터 HistoryResponse 객체를 가져옴
                     val historyResponse = response.body()
+                    Log.d("test", historyResponse!!.data.toString())
                     // HistoryResponse 객체가 null이 아니고, data 필드에 MenuItem 리스트가 있다면
                     historyResponse?.data?.let {
                         menuDataList = it.toMutableList()
@@ -115,6 +118,7 @@ class HistoryFragment : Fragment() {
                     }
                 } else {
                     // 요청이 성공적으로 처리되지 않은 경우의 처리
+                    Log.d("test", "history 요청 실패")
                 }
             }
 
@@ -147,6 +151,7 @@ class HistoryFragment : Fragment() {
         val nowDate: String = setnowDate()
         // history_today에 설정해서 보여줌
         binding.historyToday.text = nowDate
+        fetchDataFromServer(nowDate)
 
         // 버튼 클릭 이벤트
         binding.historyCalendar.setOnClickListener{
