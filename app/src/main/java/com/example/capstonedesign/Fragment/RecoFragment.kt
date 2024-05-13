@@ -1,13 +1,16 @@
 package com.example.capstonedesign.Fragment
 
+import Service.HistoryService
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.PopupWindow
 import com.example.capstonedesign.R
+import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentRecoBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,6 +28,14 @@ class RecoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding : FragmentRecoBinding
+    var category : String? = null
+    var className : String? = null
+    var nutritionRange : String? = null
+    var listCategory = listOf("한식","양식","중식")
+    var listClass = listOf("밥류","구이류","국 및 탕류","면 및 만두류","볶음류","빵 및 과자류","전 적 및 부침류",
+        "죽 및 스프류", "찌개 및 전골류","찜류", "튀김류")
+    var listNutritionRagnge = listOf("아침","점심","저녁","사용자 설정")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,17 +56,64 @@ class RecoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var popupView = requireActivity().layoutInflater.inflate(R.layout.popupwindow, null)
+        var listView = popupView.findViewById<ListView>(R.id.popupWindowListView)
+        var popupWindow : PopupWindow
         binding.btnCategory.setOnClickListener {
-            var popupView = requireActivity().layoutInflater.inflate(R.layout.popupwindow_category, null)
-            var popupWindow = PopupWindow(
+            popupWindow = PopupWindow(
                 popupView,
                 binding.btnCategory.width,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 true
             )
+            var categoryAdapter = ArrayAdapter(requireActivity(), R.layout.item_popupwindow, R.id.popupWindowItem, listCategory)
+            listView.adapter = categoryAdapter
+            listView.setOnItemClickListener{ adapterView, view, position, id ->
+                binding.btnCategory.text = categoryAdapter.getItem(position).toString()
+                popupWindow.dismiss()
+            }
             popupWindow.showAsDropDown(binding.btnCategory)
         }
+        binding.btnClass.setOnClickListener {
+            popupWindow = PopupWindow(
+                popupView,
+                binding.btnClass.width,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+            )
+            var classAdapter = ArrayAdapter(requireActivity(), R.layout.item_popupwindow, R.id.popupWindowItem, listClass)
+            listView.adapter = classAdapter
+            listView.setOnItemClickListener{ adapterView, view, position, id ->
+                binding.btnClass.text = classAdapter.getItem(position).toString()
+                popupWindow.dismiss()
+            }
+            popupWindow.showAsDropDown(binding.btnClass)
+
+        }
+        binding.btnNutritionRange.setOnClickListener {
+            popupWindow = PopupWindow(
+                popupView,
+                binding.btnNutritionRange.width,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+            )
+            var nutritionRangeAdapter = ArrayAdapter(requireActivity(), R.layout.item_popupwindow, R.id.popupWindowItem, listNutritionRagnge)
+            listView.adapter = nutritionRangeAdapter
+            listView.setOnItemClickListener{ adapterView, view, position, id ->
+                binding.btnNutritionRange.text = nutritionRangeAdapter.getItem(position).toString()
+                if(binding.btnNutritionRange.text.equals("사용자 설정")){
+                    //영양성분 범위를 설정하기 위한 dialog
+                }
+                popupWindow.dismiss()
+            }
+            popupWindow.showAsDropDown(binding.btnNutritionRange)
+        }
+    }
+
+    fun setRecommendList(){
+        var historyService = RetrofitClient.setRetroFitInstanceWithToken(requireContext()).create(
+            HistoryService::class.java
+        )
     }
     companion object {
         /**
