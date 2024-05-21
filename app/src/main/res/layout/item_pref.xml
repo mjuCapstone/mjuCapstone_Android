@@ -5,21 +5,29 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <ImageButton
+    <!--ImageButton
         android:background="@drawable/rounded_frame"
         android:id="@+id/btnMenu"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_gravity="bottom"
         android:scaleType="centerInside"
-        android:src="@drawable/img_food" /> <!-- 여기서 your_food_image_placeholder는 이미지 리소스입니다. -->
+        android:src="@drawable/img_food" /--> <!-- 여기서 your_food_image_placeholder는 이미지 리소스입니다. -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/menuItemImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom"
+        android:src="@drawable/img_food"
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/RoundedImageView"
+        />
 
     <TextView
         android:id="@+id/tvMenuName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/menu_item_textview_background"
         android:gravity="center_vertical"
         android:padding="20dp"

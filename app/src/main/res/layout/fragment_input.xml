@@ -18,19 +18,10 @@
             android:layout_weight="1"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/btnSelectBrand"
-                android:background="@drawable/custom_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:text="브랜드"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal"
                 android:background="@drawable/search_bar_background">
@@ -80,7 +71,7 @@
                 android:id="@+id/tvBrandEnter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="브랜드를 입력해주세요"
+                android:text="메뉴 이름을 입력해주세요"
                 android:gravity="center"/>
         </FrameLayout>
 

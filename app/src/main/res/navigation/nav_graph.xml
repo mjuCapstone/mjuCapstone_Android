@@ -27,7 +27,12 @@
         tools:layout="@layout/fragment_result">
         <argument
             android:name="photoUri"
-            app:argType="android.net.Uri" />
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="menuName"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_resultFragment_to_mainFragment"
             app:destination="@id/mainFragment" />

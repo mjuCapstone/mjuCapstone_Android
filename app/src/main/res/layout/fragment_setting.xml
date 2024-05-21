@@ -19,12 +19,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:weightSum="12">
+                android:weightSum="13">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:text="회원 정보 조회"
+                    android:fontFamily="@font/inter_bold"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:padding="10dp"/>
+                <View
+                    android:background="@android:color/darker_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_margin="10dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:orientation="horizontal">
@@ -351,17 +366,7 @@
                         android:textStyle="bold"/>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnInfoModifiy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/custom_img_btn"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="프로필 수정"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+            
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -370,9 +375,19 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:gravity="center">
+                <Button
+                    android:id="@+id/btnInfoModifiy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_border"
+                    android:text="정보 수정"
+                    android:textStyle="bold"
+                    android:scaleType="centerInside"
+                    android:textColor="#E18610"
+                    android:layout_marginRight="10dp" />
 
                 <Button
-                    android:id="@+id/btnMainLogin"
+                    android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_border"
@@ -380,9 +395,10 @@
                     android:textStyle="bold"
                     android:scaleType="centerInside"
                     android:textColor="#E18610"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
                 <Button
-                    android:id="@+id/btnMainSignUp"
+                    android:id="@+id/btnDeleteUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"

@@ -1,10 +1,13 @@
 package com.example.capstonedesign.Fragment
 
+import Response.SearchResponse
+import Service.AddItemService
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +16,17 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.capstonedesign.R
+import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentInputBinding
+import retrofit2.Call
+import retrofit2.Response
+import retrofit2.Retrofit
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,11 +43,10 @@ class InputFragment : Fragment() {
     //var context = requireContext()
     private lateinit var binding : FragmentInputBinding
     private lateinit var imagePickerLauncher : ActivityResultLauncher<Intent>
-    private lateinit var brandMenuMap : HashMap<Int,java.util.ArrayList<String>>
     private lateinit var menuList : java.util.ArrayList<String>
+    private lateinit var bundle : Bundle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -52,43 +59,68 @@ class InputFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        brandMenuMap = HashMap()
-        var lotteia = arrayListOf("불고기버거","치즈버거","새우버거")
-        var macdonald = arrayListOf("빅맥","불고기버거","핫크리스피버거","1955버거")
-        var burgerking = arrayListOf("통새우와퍼","몬스터와퍼","불고기버거","통모짜와퍼")
-        var momstouch = arrayListOf("싸이버거","불싸이버거","불고기버거","아라비아따치즈버거")
-        brandMenuMap.put(R.id.lotteria,lotteia)
-        brandMenuMap.put(R.id.macdonald,macdonald)
-        brandMenuMap.put(R.id.burgerking,burgerking)
-        brandMenuMap.put(R.id.momstouch, momstouch)
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
             if(result.resultCode == Activity.RESULT_OK){
-                var uri : Uri = result.data?.data!!
-                var action = InputFragmentDirections.actionInputFragmentToResultFragment(uri)
-                findNavController().navigate(action)
-            }
-        }
-        binding.btnSelectBrand.setOnClickListener {
-            var popupMenu = PopupMenu(requireContext(), it)
-            var applicationContext : AppCompatActivity = context as AppCompatActivity
-            applicationContext.menuInflater.inflate(R.menu.menu_brand, popupMenu.menu)
-            popupMenu.show()
-            popupMenu.setOnMenuItemClickListener {
-                if(brandMenuMap.containsKey(it.itemId)){
-                    menuList = brandMenuMap.get(it.itemId)!!
-                    binding.tvBrandEnter.visibility = TextView.GONE
-                    binding.menuListView.visibility = ListView.VISIBLE
-                    binding.btnSelectBrand.text = it.title
-                    var arrayAdapter : ArrayAdapter<String> = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, menuList)
-                    binding.menuListView.adapter = arrayAdapter
-                    binding.menuListView.deferNotifyDataSetChanged()
-                    return@setOnMenuItemClickListener true
+                var uri : String = result.data?.data!!.toString()
+                bundle = Bundle().apply {
+                    putString("photoUri", uri)
                 }
-                return@setOnMenuItemClickListener false
+                findNavController().navigate(R.id.action_inputFragment_to_resultFragment, bundle)
             }
         }
         binding.btnSearch.setOnClickListener {
+           var text = binding.edtSearch.text.toString()
+            if(text.equals("")){
+                Toast.makeText(
+                    requireContext(), "메뉴명을 입력해주세요", Toast.LENGTH_SHORT
+                ).show()
+            }
+            else{
+                //검색 요청
+                val addItemService = RetrofitClient.setRetroFitInstanceWithToken(requireContext()).create(
+                    AddItemService::class.java)
+                addItemService.search(text).enqueue(object : retrofit2.Callback<SearchResponse>{
+                    override fun onResponse(
+                        call: Call<SearchResponse>,
+                        response: Response<SearchResponse>
+                    ) {
+                        if(response.isSuccessful) {
+                            menuList = ArrayList(response.body()!!.data)
+                            if(menuList.size != 0) {
+                                var arrayAdapter: ArrayAdapter<String> = ArrayAdapter(
+                                    requireContext(),
+                                    android.R.layout.simple_list_item_1,
+                                    menuList
+                                )
+                                binding.tvBrandEnter.visibility = TextView.GONE
+                                binding.menuListView.visibility = ListView.VISIBLE
+                                binding.menuListView.adapter = arrayAdapter
+                                binding.menuListView.deferNotifyDataSetChanged()
+                                binding.menuListView.setOnItemClickListener { adapterView, view, i, l ->
+                                    bundle = Bundle().apply {
+                                        putString("menuName", menuList.get(i))
+                                    }
+                                    findNavController().navigate(R.id.action_inputFragment_to_resultFragment, bundle)
+                                }
+                            }
+                            else{
+                                Toast.makeText(requireContext(), "검색 결과가 존재하지 않습니다.", Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        else{
+                            Log.d("test", response.errorBody().toString())
+                            Toast.makeText(requireContext(), "검색에 실패하였습니다." , Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
+                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        Toast.makeText(requireContext(), "검색에 실패하였습니다." , Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+
+            }
         }
         binding.btnAddPhoto.setOnClickListener {
             // 갤러리에서 선택하는 Intent 생성

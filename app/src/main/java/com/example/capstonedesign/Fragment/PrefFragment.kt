@@ -62,9 +62,9 @@ class PrefFragment : Fragment() {
 
     fun initList(){
         with(menuData){
-            add(PrefItem(R.drawable.img_food, "김치볶음밥", true))
+            add(PrefItem(R.drawable.img_pork_cutlet, "김치볶음밥", true))
             add(PrefItem(R.drawable.img_food, "볶음밥", false))
-            add(PrefItem(R.drawable.img_food, "참치볶음밥", false))
+            add(PrefItem(R.drawable.img_history_menu1, "참치볶음밥", false))
             add(PrefItem(R.drawable.img_food, "김치찌개", true))
             add(PrefItem(R.drawable.img_food, "스테이크", true))
             add(PrefItem(R.drawable.img_food, "비빔밥", false))

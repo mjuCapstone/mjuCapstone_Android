@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.example.capstonedesign.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -36,28 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
         var btnSetting : ImageButton? = supportActionBar?.customView?.findViewById(R.id.btnSetting)
         btnSetting?.setOnClickListener {
-            var popupMenu = PopupMenu(applicationContext, it)
-            menuInflater?.inflate(R.menu.menu_setting, popupMenu.menu)
-            popupMenu.show()
-            popupMenu.setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.itemInfo ->{
-                        navController.navigate(R.id.settingFragment)
-                        return@setOnMenuItemClickListener true
-                    }
-                    R.id.itemPreference ->{
-                        navController.navigate(R.id.prefFragment)
-                        return@setOnMenuItemClickListener true
-                    }
-                    R.id.itemHistory ->{
-                        navController.navigate(R.id.historyFragment)
-                        return@setOnMenuItemClickListener true
-                    }
-                    else ->{
-                        return@setOnMenuItemClickListener false
-                    }
-                }
-            }
+            navController.navigate(R.id.settingFragment)
         }
     }
 }

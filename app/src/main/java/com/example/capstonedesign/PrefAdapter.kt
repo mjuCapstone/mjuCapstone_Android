@@ -11,7 +11,7 @@ class PrefAdapter : RecyclerView.Adapter<PrefAdapter.MenuViewHolder>() {
     var menuList = mutableListOf<PrefItem>()
     inner class MenuViewHolder(private val binding : ItemPrefBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(menuItem: PrefItem){
-            binding.btnMenu.setImageResource(menuItem.imgNum)
+            binding.menuItemImage.setImageResource(menuItem.imgNum)
             binding.tvMenuName.text = menuItem.name
             binding.btnLike.setOnClickListener {
                 //서버에 요청 처리해야함.
