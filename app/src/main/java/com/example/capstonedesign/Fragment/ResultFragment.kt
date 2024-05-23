@@ -1,6 +1,8 @@
 package com.example.capstonedesign.Fragment
 
 import Data.AddItemData
+import Data.SelectData
+import com.example.capstonedesign.Dialog.LoadingDialog
 import Response.AddItemResponse
 import Response.SelectResponse
 import Service.AddItemService
@@ -21,6 +23,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -35,6 +38,8 @@ import com.doinglab.foodlens2.sdk.model.RecognitionResult
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentResultBinding
+import com.example.capstonedesign.Dialog.SelectDialog
+import com.example.capstonedesign.Dialog.SelectDialogListener
 import retrofit2.Call
 import retrofit2.Response
 import java.io.File
@@ -50,7 +55,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ResultFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ResultFragment : Fragment() {
+class ResultFragment : Fragment() , SelectDialogListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -75,6 +80,16 @@ class ResultFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentResultBinding.inflate(inflater,container,false)
         return binding.root
+    }
+
+    override fun changeMenu(data : SelectData){
+        Log.d("test", "changeMenu 호출!")
+        originMenu.name = data.name
+        originMenu.kcal = (data.kcal.toFloat() / 100 * originMenu.amount).toInt()
+        originMenu.carbohydrate = (data.carbohydrate.toFloat() / 100 * originMenu.amount).toInt()
+        originMenu.protein = (data.protein.toFloat() / 100 * originMenu.amount).toInt()
+        originMenu.fat =  (data.fat.toFloat() / 100 * originMenu.amount).toInt()
+        setInfo(curMenu.amount, curMenu.serving)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -156,6 +171,8 @@ class ResultFragment : Fragment() {
             bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
             // 이제 byteArray에 이미지의 바이트 배열이 들어있습니다.
             // 필요한 작업을 이 배열로 수행하세요.
+            var loadingDialog = LoadingDialog(requireContext())
+            loadingDialog.show()
             foodLensService?.predict(byteArray, object : RecognitionResultHandler { //If userId does not exist
                 override fun onSuccess(result: RecognitionResult?) {
                     result?.let {
@@ -168,11 +185,13 @@ class ResultFragment : Fragment() {
                         }
                         else {
                             setView()
+                            loadingDialog.dismiss()
                         }
                     }
                 }
 
                 override fun onError(errorReason: BaseError?) {
+                    loadingDialog.dismiss()
                     Log.d("FoodLens", errorReason?.getMessage().toString())
                     Toast.makeText(context, "error: " + errorReason?.getMessage() ,Toast.LENGTH_SHORT).show()
                 }
@@ -185,7 +204,9 @@ class ResultFragment : Fragment() {
             var edtServing : EditText = dialog.findViewById(R.id.edtServing)
             var btnReselect : Button = dialog.findViewById(R.id.btnReselect)
             btnReselect.setOnClickListener {
-                findNavController().navigate(R.id.inputFragment)
+                dialog.dismiss()
+                val selectDialog = SelectDialog()
+                selectDialog.show(childFragmentManager , "MyDialogFragment")
             }
             var btnConfirm : Button = dialog.findViewById(R.id.btnConfirm)
             btnConfirm.setOnClickListener {
@@ -247,12 +268,14 @@ class ResultFragment : Fragment() {
         var dif : Float = amount.toFloat() / originMenu.amount.toFloat() / person.toFloat()
         curMenu.amount = amount
         curMenu.serving = person
+        curMenu.name = originMenu.name
         curMenu.kcal = (dif * originMenu.kcal).toInt()
         curMenu.carbohydrate = (dif * originMenu.carbohydrate).toInt()
         curMenu.protein = (dif * originMenu.protein).toInt()
         curMenu.fat = (dif * originMenu.fat).toInt()
 
         //텍스트뷰 설정
+        binding.tvMenuResultName.text = curMenu.name
         binding.tvGram.text = amount.toString() + " g"
         binding.tvPerson.text = person.toString() + " 인분"
         binding.tvCalorie.text = curMenu.kcal.toString() + " kcal"

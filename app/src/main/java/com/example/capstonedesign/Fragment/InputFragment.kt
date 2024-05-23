@@ -2,31 +2,37 @@ package com.example.capstonedesign.Fragment
 
 import Response.SearchResponse
 import Service.AddItemService
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentInputBinding
+import com.github.mikephil.charting.BuildConfig
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.Retrofit
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +51,18 @@ class InputFragment : Fragment() {
     private lateinit var imagePickerLauncher : ActivityResultLauncher<Intent>
     private lateinit var menuList : java.util.ArrayList<String>
     private lateinit var bundle : Bundle
+    private lateinit var photoFile: File
+    private lateinit var photoURI: Uri
+    private val cameraPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isGranted) {
+            openChooser()
+
+        } else {
+            Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_LONG).show()
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -61,11 +79,13 @@ class InputFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
             if(result.resultCode == Activity.RESULT_OK){
-                var uri : String = result.data?.data!!.toString()
-                bundle = Bundle().apply {
-                    putString("photoUri", uri)
+                var uri : Uri? = result.data?.data
+                uri?.let {
+                    bundle = Bundle().apply {
+                        putString("photoUri", it.toString())
+                    }
+                    findNavController().navigate(R.id.action_inputFragment_to_resultFragment, bundle)
                 }
-                findNavController().navigate(R.id.action_inputFragment_to_resultFragment, bundle)
             }
         }
         binding.btnSearch.setOnClickListener {
@@ -123,21 +143,41 @@ class InputFragment : Fragment() {
             }
         }
         binding.btnAddPhoto.setOnClickListener {
-            // 갤러리에서 선택하는 Intent 생성
-            val galleryIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            cameraPermissionRequest.launch(Manifest.permission.CAMERA)
+        }
+    }
 
-            // 카메라로 사진을 찍는 Intent 생성
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-            // 사용자에게 제공할 Intent 목록을 만듭니다.
-            val chooser = Intent.createChooser(galleryIntent, "사진 선택")
-            val intentArray = arrayOf(cameraIntent)
-
-            // 카메라 인텐트를 선택 옵션에 추가합니다.
-            chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray)
-
-            // 선택기를 시작합니다.
-            imagePickerLauncher.launch(chooser)
+    private fun openChooser() {
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            resolveActivity(requireContext().packageManager)?.also {
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    null
+                }
+                photoFile?.also {
+                    putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                }
+            }
+        }
+        val chooser = Intent.createChooser(galleryIntent, "사진 선택")
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+        imagePickerLauncher.launch(chooser)
+    }
+    private fun createImageFile(): File? {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return try {
+            File.createTempFile(
+                "JPEG_${timeStamp}_",
+                ".jpg",
+                storageDir
+            ).apply {
+                photoURI = FileProvider.getUriForFile(requireContext(), "${com.example.capstonedesign.BuildConfig.APPLICATION_ID}.fileprovider", this)
+            }
+        } catch (ex: IOException) {
+            null
         }
     }
 }
