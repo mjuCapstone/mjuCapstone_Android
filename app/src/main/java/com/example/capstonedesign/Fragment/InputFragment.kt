@@ -56,7 +56,6 @@ class InputFragment : Fragment() {
     private val cameraPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted) {
             openChooser()
-
         } else {
             Toast.makeText(requireContext(), "Camera permission denied", Toast.LENGTH_LONG).show()
         }
@@ -79,7 +78,7 @@ class InputFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
             if(result.resultCode == Activity.RESULT_OK){
-                var uri : Uri? = result.data?.data
+                var uri : Uri? = result.data?.data ?: photoURI
                 uri?.let {
                     bundle = Bundle().apply {
                         putString("photoUri", it.toString())
@@ -157,6 +156,7 @@ class InputFragment : Fragment() {
                     null
                 }
                 photoFile?.also {
+                    photoURI = FileProvider.getUriForFile(requireContext(), "${com.example.capstonedesign.BuildConfig.APPLICATION_ID}.fileprovider", it)
                     putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 }
             }

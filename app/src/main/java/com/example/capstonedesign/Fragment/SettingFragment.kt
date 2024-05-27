@@ -1,12 +1,15 @@
 package com.example.capstonedesign.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.capstonedesign.Activity.StartActivity
 import com.example.capstonedesign.R
 import com.example.capstonedesign.databinding.FragmentSettingBinding
 
@@ -49,6 +52,15 @@ class SettingFragment : Fragment() {
             findNavController().navigate(R.id.modifyFragment)
         }
         binding.btnLogout.setOnClickListener {
+            // 저장소에서 토큰 삭제
+            val preferences = requireActivity().getSharedPreferences("APP", AppCompatActivity.MODE_PRIVATE)
+            val editor = preferences.edit()
+            editor.remove("token")
+            editor.apply()
+            //startActivity로 이동
+            val intent = Intent(requireActivity(), StartActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
 
         }
         binding.btnDeleteUser.setOnClickListener {

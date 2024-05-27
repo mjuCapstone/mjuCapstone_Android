@@ -71,9 +71,6 @@ class LoginActivity : AppCompatActivity() {
                         response: Response<LoginResponse>
                     ) {
                         Log.d("test", loginData.toString())
-                        /*TODO("메인화면 진입 후 뒤로가기 버튼을 눌렀을 때 " +
-                                "어플리케이션을 종료할지 물어볼 것인지 아니면 로그인 화면으로 돌아갈 것인지" +
-                                "정하기")*/
                         //토큰 처리 메소드
                         when(response.code()){
                             200 -> {
