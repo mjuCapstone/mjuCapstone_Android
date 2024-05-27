@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:weightSum="16"
     tools:context=".Fragment.ResultFragment">
@@ -21,6 +22,7 @@
         android:textStyle="bold"/>
 
     <TextView
+        android:id="@+id/tvInfo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -40,5 +42,14 @@
         android:layout_height="0dp"
         android:layout_weight="12"
         android:scrollbars="vertical" />
+
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/recoIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:ci_drawable_unselected="@drawable/shape_circle_gray"
+        app:ci_drawable="@drawable/shape_circle_purple"
+        app:ci_animator="@animator/scale_with_alpha"/>
 
 </LinearLayout>

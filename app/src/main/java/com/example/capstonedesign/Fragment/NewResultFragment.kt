@@ -105,7 +105,7 @@ class NewResultFragment : Fragment() , SelectDialogListener {
                                     Log.d("test", "Saved file path: $filePath")
 
                                     list = ArrayList()
-                                    list.add(AddItemData(result.name, result.amount, result.serving, result.kcal, result.carbohydrate, result.protein,
+                                    list.add(AddItemData(result.name, result.gram, 1, result.kcal, result.carbohydrate, result.protein,
                                         result.fat, fileName))
                                     Log.d("test", list[0].fileName)
                                     adapter = AddItemAdapter(requireContext())

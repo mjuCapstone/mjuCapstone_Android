@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
@@ -29,10 +30,10 @@ class RecoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding : FragmentRecoBinding
-    var eatTimenum = -1
-    var flavor = -1
-    var nationalFoodnum = -1
-    var preferredStyle = -1
+    var eatTimenum = ""
+    var flavor = ""
+    var nationalFoodnum = ""
+    var preferredStyle = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,42 +61,52 @@ class RecoFragment : Fragment() {
         // 식사시간
         binding.rgEattime.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.morning -> eatTimenum = 1
-                R.id.lunch -> eatTimenum = 2
-                R.id.dinner -> eatTimenum = 3
-                R.id.snack -> eatTimenum = 4
+                R.id.morning -> eatTimenum = "아침"
+                R.id.lunch -> eatTimenum = "점심"
+                R.id.dinner -> eatTimenum = "저녁"
+                R.id.snack -> eatTimenum = "간식"
             }
         }
 
         // 매움 안매움
         binding.rgFlavor.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.spicy -> flavor = 1
-                R.id.plain -> flavor = 0
+                R.id.spicy -> flavor = "매운"
+                R.id.plain -> flavor = "안 매운"
             }
         }
 
         // 한중일
         binding.rgNation.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.koreanFood -> nationalFoodnum = 1
-                R.id.chineseFood -> nationalFoodnum = 2
-                R.id.japaneseFood -> nationalFoodnum = 3
-                R.id.noMatter -> nationalFoodnum = 4
+                R.id.koreanFood -> nationalFoodnum = "한식"
+                R.id.chineseFood -> nationalFoodnum = "중식"
+                R.id.japaneseFood -> nationalFoodnum = "일식"
+                R.id.americanFood -> nationalFoodnum = "양식"
             }
         }
 
         // 배달/요리
         binding.rgWant.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.delivery -> preferredStyle = 1
-                R.id.cooking -> preferredStyle = 2
+                R.id.delivery -> preferredStyle = "배달"
+                R.id.cooking -> preferredStyle = "요리"
             }
         }
 
         binding.btnReco.setOnClickListener {
-            findNavController().navigate(R.id.action_recoFragment_to_recoResultFragment)
-
+            if(!eatTimenum.equals("") && !flavor.equals("") && !nationalFoodnum.equals("") && !preferredStyle.equals("")) {
+                var action = RecoFragmentDirections.actionRecoFragmentToRecoResultFragment(
+                    mealTime = eatTimenum,
+                    tasteType = flavor,
+                    menuCountry = nationalFoodnum,
+                    cookOrDelivery = preferredStyle
+                )
+                findNavController().navigate(action)
+            }
+            else{
+                Toast.makeText(requireContext(), "모든 항목을 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

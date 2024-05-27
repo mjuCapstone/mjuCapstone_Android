@@ -57,12 +57,31 @@
         <action
             android:id="@+id/action_recoFragment_to_recoResultFragment"
             app:destination="@id/recoResultFragment"
-            app:popUpTo="@id/mainFragment"/>
+            app:popUpTo="@id/mainFragment">
+        </action>
     </fragment>
     <fragment
         android:id="@+id/recoResultFragment"
         android:name="com.example.capstonedesign.Fragment.RecoResultFragment"
-        android:label="fragment_recoresult" />
+        android:label="fragment_recoresult">
+        <argument
+            android:name="mealTime"
+            app:argType="string"
+            app:nullable="false"/>
+        <argument
+            android:name="tasteType"
+            app:argType="string"
+            app:nullable="false"/>
+        <argument
+            android:name="menuCountry"
+            app:argType="string"
+            app:nullable="false"/>
+        <argument
+            android:name="cookOrDelivery"
+            app:argType="string"
+            app:nullable="false"/>
+
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.capstonedesign.Fragment.SettingFragment"

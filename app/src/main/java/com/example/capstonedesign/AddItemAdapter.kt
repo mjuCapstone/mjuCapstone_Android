@@ -46,8 +46,8 @@ class AddItemAdapter(private val context : Context) : RecyclerView.Adapter<AddIt
     public fun changeAll(index : Int, data : SelectData){
         var item = menuList[index]
         item.name = data.name
-        item.amount = data.amount
-        item.serving = data.serving
+        item.amount = data.gram
+        item.serving = 1
         item.kcal = data.kcal
         item.carbohydrate = data.carbohydrate
         item.protein = data.protein

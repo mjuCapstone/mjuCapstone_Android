@@ -249,14 +249,14 @@
             android:layout_weight="1"/>
 
         <RadioButton
-            android:id="@+id/noMatter"
+            android:id="@+id/americanFood"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
-            android:text="상관없음"
+            android:text="양식"
             android:textColor="@color/black" />
 
     </RadioGroup>

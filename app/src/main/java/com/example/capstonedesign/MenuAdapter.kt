@@ -19,7 +19,8 @@ class MenuAdapter(private val context : Context) : RecyclerView.Adapter<MenuAdap
                 .load(menuItem.imgUrl)
                 .into(binding.ivMenuImage)
             binding.recoName.text = menuItem.name
-            binding.recoGram.text = "100g"
+            binding.recoGram.text = menuItem.gram.toString() + "g"
+            binding.recoPerson.text = "1 인분"
             binding.recoCalorie.text = menuItem.kcal.toString() + "kcal"
             binding.recoCarbo.text = menuItem.carbohydrate.toString() + "g"
             binding.recoProtein.text = menuItem.protein.toString() + "g"
