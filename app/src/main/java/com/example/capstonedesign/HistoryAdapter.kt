@@ -1,7 +1,6 @@
 package com.example.capstonedesign
 
 import Data.MenuItem
-import Data.SelectData
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,26 +8,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.capstonedesign.databinding.ItemMenuBinding
-import com.example.capstonedesign.databinding.ItemRecoResultBinding
 
-class RecoAdapter(private val context : Context) : RecyclerView.Adapter<RecoAdapter.MenuViewHolder>() {
-    var menuList = mutableListOf<SelectData>()
+class HistoryAdapter(private val context : Context) : RecyclerView.Adapter<HistoryAdapter.MenuViewHolder>() {
+    var menuList = mutableListOf<MenuItem>()
 
-    inner class MenuViewHolder(private val binding: ItemRecoResultBinding) :
+    inner class MenuViewHolder(private val binding: ItemMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(menuItem: SelectData) {
-            // binding.menuItemImage.setImageBitmap(loadBitmapFromFile(menuItem.fileName))
-            binding.recoName.text = menuItem.name
-            binding.recoCalorie.text = menuItem.kcal.toString() + "kcal"
-            binding.recoCarbo.text = menuItem.carbohydrate.toString() + "g"
-            binding.recoProtein.text = menuItem.protein.toString() + "g"
-            binding.recoFat.text = menuItem.fat.toString() + "g"
+        fun bind(menuItem: MenuItem) {
+            binding.menuItemImage.setImageBitmap(loadBitmapFromFile(menuItem.fileName))
+            binding.menuItemName.text = menuItem.name
+            binding.menuItemKcal.text = menuItem.kcal.toString() + "kcal"
+            binding.menuItemCarbo.text = menuItem.carbohydrate.toString() + "g"
+            binding.menuItemProtein.text = menuItem.protein.toString() + "g"
+            binding.menuItemFat.text = menuItem.fat.toString() + "g"
         }
     }
 
     //만들어진 뷰홀더 없을때 뷰홀더(레이아웃) 생성하는 함수
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        val binding = ItemRecoResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MenuViewHolder(binding)
     }
 

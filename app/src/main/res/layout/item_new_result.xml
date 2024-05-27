@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="12"
+    tools:context=".Fragment.ResultFragment">
+    <ImageView
+        android:id="@+id/ivMenuImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/rounded_frame"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher_foreground"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvMenuResultName"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:text="로딩 중..."
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/tvGram"
+            android:layout_marginLeft="10dp"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="0 g"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:gravity="center_vertical | right"/>
+        <TextView
+            android:id="@+id/tvPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="1 인분"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+    <View
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="총 칼로리"
+            android:textSize="17dp"
+            android:textColor="#E18610"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvCalorie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="40dp"
+            android:gravity="right |center_vertical"
+            android:text="0 kcal"
+            android:textSize="17dp"
+            android:textColor="#E18610"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.7">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="탄수화물"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:textStyle="normal"/>
+        <TextView
+            android:id="@+id/tvCarbo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="40dp"
+            android:gravity="right"
+            android:text="0g"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:textStyle="normal"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.7">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="단백질"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:textStyle="normal"/>
+        <TextView
+            android:id="@+id/tvProtein"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="40dp"
+            android:gravity="right"
+            android:text="0g"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:textStyle="normal"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.7">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="지방"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:textStyle="normal"/>
+        <TextView
+            android:id="@+id/tvFat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="40dp"
+            android:gravity="right"
+            android:text="0g"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:textStyle="normal"/>
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>

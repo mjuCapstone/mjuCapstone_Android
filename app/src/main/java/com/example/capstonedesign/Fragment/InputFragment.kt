@@ -83,7 +83,7 @@ class InputFragment : Fragment() {
                     bundle = Bundle().apply {
                         putString("photoUri", it.toString())
                     }
-                    findNavController().navigate(R.id.action_inputFragment_to_resultFragment, bundle)
+                    findNavController().navigate(R.id.action_inputFragment_to_newResultFragment, bundle)
                 }
             }
         }
@@ -119,7 +119,7 @@ class InputFragment : Fragment() {
                                     bundle = Bundle().apply {
                                         putString("menuName", menuList.get(i))
                                     }
-                                    findNavController().navigate(R.id.action_inputFragment_to_resultFragment, bundle)
+                                    findNavController().navigate(R.id.action_inputFragment_to_newResultFragment, bundle)
                                 }
                             }
                             else{

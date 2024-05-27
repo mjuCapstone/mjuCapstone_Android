@@ -19,6 +19,9 @@
             android:id="@+id/action_inputFragment_to_resultFragment"
             app:destination="@id/resultFragment" >
         </action>
+        <action
+            android:id="@+id/action_inputFragment_to_newResultFragment"
+            app:destination="@id/newResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
@@ -53,8 +56,13 @@
         tools:layout="@layout/fragment_reco" >
         <action
             android:id="@+id/action_recoFragment_to_recoResultFragment"
-            app:destination="@id/recoResultFragment" />
+            app:destination="@id/recoResultFragment"
+            app:popUpTo="@id/mainFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/recoResultFragment"
+        android:name="com.example.capstonedesign.Fragment.RecoResultFragment"
+        android:label="fragment_recoresult" />
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.capstonedesign.Fragment.SettingFragment"
@@ -70,7 +78,22 @@
         android:label="fragment_modify"
         tools:layout="@layout/fragment_modify" />
     <fragment
-        android:id="@+id/recoResultFragment"
-        android:name="com.example.capstonedesign.Fragment.RecoResultFragment"
-        android:label="fragment_recoresult" />
+        android:id="@+id/newResultFragment"
+        android:name="com.example.capstonedesign.Fragment.NewResultFragment"
+        android:label="NewResultFragment">
+        <argument
+            android:name="photoUri"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="menuName"
+            app:argType="string"
+            app:nullable="true"/>
+        <action
+            android:id="@+id/action_newResultFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_newResultFragment_to_inputFragment"
+            app:destination="@id/inputFragment" />
+    </fragment>
 </navigation>

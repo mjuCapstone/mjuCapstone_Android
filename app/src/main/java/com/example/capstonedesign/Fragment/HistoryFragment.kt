@@ -1,37 +1,20 @@
 package com.example.capstonedesign.Fragment
 
 import Data.MenuItem
-import Data.PrefItem
-import Data.HistoryInfo
-import Response.AutoLoginResponse
 import Response.HistoryResponse
-import Service.AutoLoginService
 import Service.HistoryService
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.ImageButton
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.capstonedesign.Activity.StartActivity
-import com.example.capstonedesign.MenuAdapter
-import com.example.capstonedesign.PrefAdapter
-import com.example.capstonedesign.R
+import com.example.capstonedesign.HistoryAdapter
 import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentHistoryBinding
-import com.example.capstonedesign.databinding.FragmentInputBinding
-import com.example.capstonedesign.databinding.FragmentPrefBinding
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -54,7 +37,7 @@ class HistoryFragment : Fragment() {
     private lateinit var binding : FragmentHistoryBinding
     lateinit var menuDataList : MutableList<MenuItem>
 
-    private lateinit var adapter : MenuAdapter //adapter객체 먼저 선언해주기!
+    private lateinit var adapter : HistoryAdapter //adapter객체 먼저 선언해주기!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,7 +112,7 @@ class HistoryFragment : Fragment() {
     }
 
     fun initMenuRecyclerView(){
-        val adapter= MenuAdapter(requireContext()) //어댑터 객체 만듦
+        val adapter= HistoryAdapter(requireContext()) //어댑터 객체 만듦
         adapter.menuList = menuDataList //데이터 넣어줌
         binding.hitoryRecyclerView.adapter = adapter
         binding.hitoryRecyclerView.layoutManager= LinearLayoutManager(context)

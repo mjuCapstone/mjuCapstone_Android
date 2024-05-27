@@ -95,6 +95,7 @@ class RecoFragment : Fragment() {
 
         binding.btnReco.setOnClickListener {
             findNavController().navigate(R.id.action_recoFragment_to_recoResultFragment)
+
         }
     }
 

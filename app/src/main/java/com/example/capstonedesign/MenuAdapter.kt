@@ -1,32 +1,35 @@
 package com.example.capstonedesign
 
-import Data.MenuItem
+import Data.SelectData
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.capstonedesign.databinding.ItemMenuBinding
+import com.bumptech.glide.Glide
+import com.example.capstonedesign.databinding.ItemRecoResultBinding
 
 class MenuAdapter(private val context : Context) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
-    var menuList = mutableListOf<MenuItem>()
+    var menuList = mutableListOf<SelectData>()
 
-    inner class MenuViewHolder(private val binding: ItemMenuBinding) :
+    inner class MenuViewHolder(private val binding: ItemRecoResultBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(menuItem: MenuItem) {
-            binding.menuItemImage.setImageBitmap(loadBitmapFromFile(menuItem.fileName))
-            binding.menuItemName.text = menuItem.name
-            binding.menuItemKcal.text = menuItem.kcal.toString() + "kcal"
-            binding.menuItemCarbo.text = menuItem.carbohydrate.toString() + "g"
-            binding.menuItemProtein.text = menuItem.protein.toString() + "g"
-            binding.menuItemFat.text = menuItem.fat.toString() + "g"
+        fun bind(menuItem: SelectData) {
+            //메뉴 이미지 설정
+            Glide.with(context)
+                .load(menuItem.imgUrl)
+                .into(binding.ivMenuImage)
+            binding.recoName.text = menuItem.name
+            binding.recoGram.text = "100g"
+            binding.recoCalorie.text = menuItem.kcal.toString() + "kcal"
+            binding.recoCarbo.text = menuItem.carbohydrate.toString() + "g"
+            binding.recoProtein.text = menuItem.protein.toString() + "g"
+            binding.recoFat.text = menuItem.fat.toString() + "g"
         }
     }
 
     //만들어진 뷰홀더 없을때 뷰홀더(레이아웃) 생성하는 함수
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        val binding = ItemMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemRecoResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MenuViewHolder(binding)
     }
 
@@ -36,11 +39,5 @@ class MenuAdapter(private val context : Context) : RecyclerView.Adapter<MenuAdap
     //적절한 데이터를 가져와서 그 데이터를 사용하여 뷰홀더의 레이아웃 채움
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
         holder.bind(menuList[position])
-    }
-
-    fun loadBitmapFromFile(fileName: String): Bitmap? {
-        return context.openFileInput(fileName).use { fis ->
-            BitmapFactory.decodeStream(fis)
-        }
     }
 }

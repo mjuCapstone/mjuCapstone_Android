@@ -317,15 +317,20 @@
 
     </RadioGroup>
 
-    <ImageButton
+    <Button
         android:id="@+id/btnReco"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="30dp"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="1"
-        android:background="@android:color/transparent"
+        android:background="@drawable/custom_img_btn"
         android:scaleType="centerInside"
-        android:src="@drawable/img_reco_btn" />
+        android:text="추천 결과 보기"
+        android:textSize="20dp"
+        android:fontFamily="@font/inter_bold"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>
