@@ -50,7 +50,11 @@
         android:id="@+id/recoFragment"
         android:name="com.example.capstonedesign.Fragment.RecoFragment"
         android:label="fragment_reco"
-        tools:layout="@layout/fragment_reco" />
+        tools:layout="@layout/fragment_reco" >
+        <action
+            android:id="@+id/action_recoFragment_to_recoResultFragment"
+            app:destination="@id/recoResultFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.capstonedesign.Fragment.SettingFragment"
@@ -65,4 +69,8 @@
         android:name="com.example.capstonedesign.Fragment.ModifyFragment"
         android:label="fragment_modify"
         tools:layout="@layout/fragment_modify" />
+    <fragment
+        android:id="@+id/recoResultFragment"
+        android:name="com.example.capstonedesign.Fragment.RecoResultFragment"
+        android:label="fragment_recoresult" />
 </navigation>

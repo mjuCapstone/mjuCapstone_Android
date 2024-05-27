@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.PopupWindow
+import androidx.navigation.fragment.findNavController
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
 import com.example.capstonedesign.databinding.FragmentRecoBinding
@@ -41,6 +42,8 @@ class RecoFragment : Fragment() {
         }
     }
 
+    // 처음에 내 정보를 입력하면 서버측에서 하루에 섭취해야할 목표 칼로리랑 탄단지를 계산해서 알려주면
+    // 주는 이제 다이어트 식단 관리를 해주는 어플리케이션이라고 보면 됩니다.  그러면 매일 내가 먹은거랑 이번주에 내가 먹은것도
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,6 +91,10 @@ class RecoFragment : Fragment() {
                 R.id.delivery -> preferredStyle = 1
                 R.id.cooking -> preferredStyle = 2
             }
+        }
+
+        binding.btnReco.setOnClickListener {
+            findNavController().navigate(R.id.action_recoFragment_to_recoResultFragment)
         }
     }
 

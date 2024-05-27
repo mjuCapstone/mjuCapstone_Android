@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="16"
+    tools:context=".Fragment.ResultFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="40dp"
+        android:text="찍먹이 추천하는 오늘의 메뉴"
+        android:gravity="center_vertical"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:text="아침 / 얼큰매콤 / 일식 / 배달 과 어울리는"
+        android:gravity="center_vertical"
+        android:layout_marginRight="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginBottom="30dp"
+        android:textSize="17dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/reco_ViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:scrollbars="vertical" />
+
+</LinearLayout>
