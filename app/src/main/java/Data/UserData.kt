@@ -1,5 +1,5 @@
 package Data
-data class SignUpData (
+data class UserData (
     var email : String,
     var password : String,
     var nickname : String,

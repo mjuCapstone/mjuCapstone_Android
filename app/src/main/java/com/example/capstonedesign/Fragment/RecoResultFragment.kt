@@ -97,6 +97,7 @@ class RecoResultFragment : Fragment() {
                 response: Response<RecommendResponse>
             ) {
                 if(response.isSuccessful){
+                    Log.d("test", response.body()!!.data.toString())
                     list = arrayListOf(response.body()!!.data)
                     val adapter = MenuAdapter(requireContext()) //어댑터 객체 만듦)
                     adapter.menuList = list

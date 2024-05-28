@@ -1,11 +1,9 @@
 package Service
 
 import Data.AddItemData
-import Data.SignUpData
 import Response.AddItemResponse
 import Response.SearchResponse
 import Response.SelectResponse
-import Response.SignUpResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

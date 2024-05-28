@@ -1,11 +1,15 @@
 package com.example.capstonedesign.Fragment
 
+import Data.UserData
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -28,6 +32,7 @@ class SettingFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding : FragmentSettingBinding
+    var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +53,22 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //유저 정보를 불러와 뷰 업데이트
+        val data = UserData("kiatae0722@naver.com", "ptwmju2199@", "박태우", 170,69, "male", 2000, 1 , 3)
+        setView(data)
+        binding.btnHidePassword.setOnClickListener {
+            if(isPasswordVisible) {
+                //비밀번호를 숨깁니다
+                binding.tvPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.btnHidePassword.setText("보기")
+            }
+            else{
+                //비밀번호를 표시합니다
+                binding.tvPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnHidePassword.setText("숨기기")
+            }
+            isPasswordVisible = !isPasswordVisible
+        }
         binding.btnInfoModifiy.setOnClickListener {
             findNavController().navigate(R.id.modifyFragment)
         }
@@ -67,24 +88,22 @@ class SettingFragment : Fragment() {
 
         }
     }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun setView(data : UserData){
+        val dietPlan = listOf("빠른 체중 감소", "느린 체중 감소", "체중 유지", "느린 체중 증가", "빠른 체중 감소")
+        val activeLevel = listOf(R.id.rbHigh, R.id.rbMid, R.id.rbLow)
+        binding.tvEmail.setText(data.email)
+        binding.tvPassword.setText(data.password)
+        binding.tvNickName.setText(data.nickname)
+        binding.tvHeight.setText(data.height.toString())
+        binding.tvWeight.setText(data.weight.toString())
+        if(data.gender.equals("male")){
+            binding.rgGender.check(R.id.rbMale)
+        }
+        else{
+            binding.rgGender.check(R.id.rbFemale)
+        }
+        binding.rgActiveLevel.check(activeLevel[data.level])
+        binding.tvBirth.setText(data.birth.toString())
+        binding.btnDietPlan.setText(dietPlan[data.dietPlan])
     }
 }

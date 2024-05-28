@@ -20,8 +20,8 @@ class TextProgressBar @JvmOverloads constructor(
         textPaint.textSize = 30f
     }
     public fun setProgressBar(now : Int, goal : Int){
-        progress = now
-        max = goal
+        progress = (100 * (now.toFloat() / goal)).toInt()
+        max = 100
         progressText = now.toString() + "g / " + goal.toString() + "g"
         invalidate()
     }

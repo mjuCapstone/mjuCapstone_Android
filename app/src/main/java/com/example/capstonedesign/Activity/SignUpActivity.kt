@@ -1,6 +1,6 @@
 package com.example.capstonedesign.Activity
 
-import Data.SignUpData
+import Data.UserData
 import Response.SignUpResponse
 import Service.SignUpService
 import android.content.Intent
@@ -22,10 +22,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.capstonedesign.R
 import com.example.capstonedesign.RetrofitClient
 import com.google.gson.Gson
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
-import java.io.IOException
 
 class SignUpActivity : AppCompatActivity() {
     fun printToast(message : String){
@@ -247,7 +245,7 @@ class SignUpActivity : AppCompatActivity() {
                         var year : Int = yearPicker.value
                         var height : Int = Integer.valueOf(edtHeight.text.toString())
                         var weight : Int = Integer.valueOf(edtWeight.text.toString())
-                        val signUpData = SignUpData(id,pw,nickname,height,weight,gender,year,level,dietPlan)
+                        val signUpData = UserData(id,pw,nickname,height,weight,gender,year,level,dietPlan)
                         val signUpService = RetrofitClient.retrofitInstance.create(SignUpService::class.java)
                         var intent = Intent(this, LoginActivity::class.java)
                         signUpService.signUp(signUpData).enqueue(object : retrofit2.Callback<SignUpResponse>{

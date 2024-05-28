@@ -105,8 +105,9 @@ class NewResultFragment : Fragment() , SelectDialogListener {
                                     Log.d("test", "Saved file path: $filePath")
 
                                     list = ArrayList()
-                                    list.add(AddItemData(result.name, result.gram, 1, result.kcal, result.carbohydrate, result.protein,
-                                        result.fat, fileName))
+                                    //받아온 값의 영양성분이 100g당 이므로 수정해주어야 함.
+                                    list.add(AddItemData(result.name, result.amount, result.serving, ((result.kcal * result.amount).toFloat() / 100).toInt(), ((result.carbohydrate * result.amount).toFloat() / 100).toInt(), ((result.protein * result.amount).toFloat() / 100).toInt(),
+                                        ((result.fat * result.amount).toFloat() / 100).toInt(), fileName))
                                     Log.d("test", list[0].fileName)
                                     adapter = AddItemAdapter(requireContext())
                                     adapter.menuList = list

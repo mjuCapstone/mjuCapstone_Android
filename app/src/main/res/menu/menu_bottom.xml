@@ -10,7 +10,7 @@
         android:title="item2"/>
     <item
         android:id="@+id/recoFragment"
-        android:icon="@drawable/img_grid"
+        android:icon="@drawable/img_recommend"
         android:title="item3"/>
     <item
         android:id="@+id/historyFragment"
