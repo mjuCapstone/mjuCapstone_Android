@@ -34,6 +34,7 @@ class RecoFragment : Fragment() {
     var flavor = ""
     var nationalFoodnum = ""
     var preferredStyle = ""
+    var mataterialNum = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,14 +66,19 @@ class RecoFragment : Fragment() {
                 R.id.lunch -> eatTimenum = "점심"
                 R.id.dinner -> eatTimenum = "저녁"
                 R.id.snack -> eatTimenum = "간식"
+                R.id.timeIndifferent -> eatTimenum = "상관없음"
             }
         }
 
         // 매움 안매움
         binding.rgFlavor.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.spicy -> flavor = "매운"
-                R.id.plain -> flavor = "안 매운"
+                R.id.spicy -> flavor = "매콤"
+                R.id.plain -> flavor = "담백"
+                R.id.sweet -> flavor = "달콤"
+                R.id.salty -> flavor = "짭짤"
+                R.id.fresh -> flavor = "상큼"
+                R.id.flavorIndifferent -> flavor = "상관없음"
             }
         }
 
@@ -83,6 +89,19 @@ class RecoFragment : Fragment() {
                 R.id.chineseFood -> nationalFoodnum = "중식"
                 R.id.japaneseFood -> nationalFoodnum = "일식"
                 R.id.americanFood -> nationalFoodnum = "양식"
+                R.id.nationIndifferent -> nationalFoodnum = "상관없음"
+            }
+        }
+
+        // 재료
+        binding.rgMaterial.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.meat -> mataterialNum = "고기"
+                R.id.rice -> mataterialNum = "밥"
+                R.id.noodle -> mataterialNum = "면"
+                R.id.vegetable -> mataterialNum = "야채"
+                R.id.seafood -> mataterialNum = "해산물"
+                R.id.matIndifferent -> mataterialNum = "상관없음"
             }
         }
 

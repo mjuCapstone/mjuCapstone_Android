@@ -21,7 +21,8 @@
             android:gravity="center_vertical"
             android:text="당신의 식사 취향을 알려주세요 !"
             android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <LinearLayout
@@ -37,8 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="당신이 선호하는 식사시간은?"
+            android:text="어떤 식사를 원하시나요?"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="15dp" />
 
     </LinearLayout>
@@ -54,16 +56,15 @@
 
         <RadioButton
             android:id="@+id/morning"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
-
-
-        android:text="아침"
-            android:textColor="@color/black" />
+            android:text="아침"
+            android:textColor="@drawable/custom_radiogroup_text2"
+            />
 
         <Space
             android:layout_width="0dp"
@@ -72,14 +73,14 @@
 
         <RadioButton
             android:id="@+id/lunch"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
             android:text="점심"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
         <Space
             android:layout_width="0dp"
@@ -88,14 +89,14 @@
 
         <RadioButton
             android:id="@+id/dinner"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
             android:text="저녁"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
         <Space
             android:layout_width="0dp"
@@ -104,14 +105,30 @@
 
         <RadioButton
             android:id="@+id/snack"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
             android:text="간식"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/timeIndifferent"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="상관
+            없음"
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
     </RadioGroup>
 
@@ -128,9 +145,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="당신의 스트레스를 한 번에 날려줄 음식은?"
+            android:text="선호하는 맛"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -145,30 +163,95 @@
 
         <RadioButton
             android:id="@+id/spicy"
-            android:layout_width="120dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
-            android:text="얼큰 매콤"
-            android:textColor="@color/black" />
+            android:text="매콤"
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"/>
+            android:layout_weight="1"/>
 
         <RadioButton
             android:id="@+id/plain"
-            android:layout_width="120dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
-            android:text="뜨끈 담백"
-            android:textColor="@color/black" />
+            android:text="담백"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/sweet"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="달콤"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/salty"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="짭짤"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/fresh"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="상큼"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/flavorIndifferent"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="상관
+            없음"
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
     </RadioGroup>
 
@@ -185,9 +268,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="당신이 선호하는 메뉴의 국적은?"
+            android:text="국가별 음식"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
 
     </LinearLayout>
 
@@ -202,14 +287,14 @@
 
         <RadioButton
             android:id="@+id/koreanFood"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
             android:text="한식"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
         <Space
             android:layout_width="0dp"
@@ -218,14 +303,14 @@
 
         <RadioButton
             android:id="@+id/chineseFood"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
             android:text="중식"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
         <Space
             android:layout_width="0dp"
@@ -234,14 +319,14 @@
 
         <RadioButton
             android:id="@+id/japaneseFood"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
             android:text="일식"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2"/>
 
         <Space
             android:layout_width="0dp"
@@ -250,14 +335,31 @@
 
         <RadioButton
             android:id="@+id/americanFood"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radiogroup_center_corners"
             android:button="@null"
             android:gravity="center"
             android:text="양식"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/nationIndifferent"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="상관
+            없음"
+            android:textColor="@drawable/custom_radiogroup_text2"/>
 
     </RadioGroup>
     <LinearLayout
@@ -270,12 +372,133 @@
         <TextView
             android:id="@+id/recoText4"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="메뉴의 재료"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/rgMaterial"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/meat"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="고기"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/rice"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="밥"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/noodle"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="면"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/vegetable"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="야채"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/seafood"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="해산물"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/matIndifferent"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/radiogroup_center_corners"
+            android:button="@null"
+            android:gravity="center"
+            android:text="상관
+            없음"
+            android:textColor="@drawable/custom_radiogroup_text2" />
+
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:id="@+id/recoText5"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="당신이 지금 원하는건?"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -297,7 +520,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="배달"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
         <Space
             android:layout_width="0dp"
@@ -313,24 +536,28 @@
             android:button="@null"
             android:gravity="center"
             android:text="요리"
-            android:textColor="@color/black" />
+            android:textColor="@drawable/custom_radiogroup_text2" />
 
     </RadioGroup>
 
-    <Button
-        android:id="@+id/btnReco"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_weight="1"
-        android:background="@drawable/custom_img_btn"
-        android:scaleType="centerInside"
-        android:text="추천 결과 보기"
-        android:textSize="20dp"
-        android:fontFamily="@font/inter_bold"
-        android:textColor="#FFFFFF"/>
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnReco"
+            android:layout_width="275dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_img_btn"
+            android:fontFamily="@font/inter_bold"
+            android:text="추천 결과 보기"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
 
 </LinearLayout>
